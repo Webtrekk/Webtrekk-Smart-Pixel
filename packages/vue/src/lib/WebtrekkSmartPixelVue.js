@@ -175,6 +175,7 @@ class WebtrekkSmartPixelVue {
      */
     track(keepData = false) {
         // all the setTimeout hacks have to be done because of this issue: https://github.com/vuejs/vue-router/pull/2292, otherwise linkTracking is triggered after autoTracking
+        // Otherwise automatic linkTracking requests come after PI
         setTimeout(() => {
             this.call(function(pix) {
                 pix.track(keepData);

@@ -1,5 +1,5 @@
 <template>
-  <div class="grandchild">
+  <div class="grandchild" id="mapp_teaser">
     <h1>GrandChild component</h1>
     <p>This component has webtrekk key in its data.</p>
     <a href="#">The grandchild component is treated as a teaser.</a>
@@ -17,6 +17,7 @@ export default {
           },
         },
         teaser_tracking: {
+          selector: '#mapp_teaser',
           data: {
             name: 'New Women Collection',
             rank: 'Main Page Banner',
@@ -27,11 +28,11 @@ export default {
              type: 'product',
              goal: 'both',
              value: '11%'
-          } 
+          }
         }
       },
     };
-  },
+  }
 };
 </script>
 <style>

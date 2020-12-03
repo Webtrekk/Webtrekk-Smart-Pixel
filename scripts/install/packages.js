@@ -101,13 +101,17 @@ module.exports = {
         '2': {'nuxt': '^2', 'axios': 'latest'}
     },
     'vue': {
-        '2.2': {'vue': '~2.2', 'vue-template-compiler': '~2.2'},
-        '2.3': {'vue': '~2.3', 'vue-template-compiler': '~2.3'},
-        '2.4': {'vue': '~2.4', 'vue-template-compiler': '~2.4'},
-        '2.5': {'vue': '~2.5', 'vue-template-compiler': '~2.5'},
-        '2.6': {'vue': '~2.6', 'vue-template-compiler': '~2.6'},
-        'latest': {'vue': 'latest', 'vue-template-compiler': 'latest'},
-        'next': {'vue': 'next', 'vue-template-compiler': 'latest'},
+        '2.2': {'vue': '~2.2', 'vue-template-compiler': '~2.2', 'vue-router': '^3.1.3', 'vuex': '3.0.1'},
+        '2.3': {'vue': '~2.3', 'vue-template-compiler': '~2.3', 'vue-router': '^3.1.3', 'vuex': '3.0.1'},
+        '2.4': {'vue': '~2.4', 'vue-template-compiler': '~2.4', 'vue-router': '^3.1.3', 'vuex': '3.0.1'},
+        '2.5': {'vue': '~2.5', 'vue-template-compiler': '~2.5', 'vue-router': '^3.1.3', 'vuex': '3.0.1'},
+        '2.6': {'vue': '~2.6', 'vue-template-compiler': '~2.6', 'vue-router': '^3.1.3', 'vuex': '3.0.1'},
+        'latest': {'vue': 'latest', 'vue-template-compiler': 'latest', 'vue-router': 'latest', 'vuex': 'latest'},
+        'next': {
+            'vue': 'next', '@vue/compiler-sfc': 'latest',
+            '@vue/eslint-config-prettier': 'latest',
+            'vue-router': 'next', 'vuex': 'next'
+        },
         'beta': {'vue': 'beta', 'vue-template-compiler': 'beta'}
     }
 };

@@ -3,18 +3,6 @@ import wt from './WebtrekkSmartPixelVue';
 /**
  * @param {Object} data
  */
-const pageHandler = data => {
-    if (typeof data.page === 'string') {
-        wt.page(data.page);
-    }
-    else {
-        wt.page(data.page.name, data.page);
-    }
-};
-
-/**
- * @param {Object} data
- */
 const actionHandler = data => {
     if (typeof data.action === 'string') {
         wt.action({name: data.action});
@@ -75,21 +63,37 @@ const productsHandler = data => {
     }
 };
 
+const extensionHelper = (extension, data, selector) => {
+    wt.call(wtSmart => {
+        wtSmart.extension[extension].add({
+            ...data[extension],
+            selector
+        });
+    });
+};
+
+const callWhenAvailable = (selector, extension, data) => {
+    if (document.querySelector(selector)) {
+        extensionHelper('teaser_tracking', data, selector);
+    }
+    else {
+        setTimeout(()=>{
+            callWhenAvailable(selector, extension, data);
+        }, 1000);
+    }
+};
+
 /**
  * @param {Object} data
  * @param {HTMLElement} element
  */
 const teaserTrackingHandler = (data, element) => {
-    const selector = data.teaser_tracking.selector
-        ? data.teaser_tracking.selector
-        : element;
-
-    wt.call(wtSmart => {
-        wtSmart.extension.teaser_tracking.add({
-            ...data.teaser_tracking,
-            selector
-        });
-    });
+    if (data.teaser_tracking.selector) {
+        callWhenAvailable(data.teaser_tracking.selector, 'teaser_tracking', data);
+    }
+    else {
+        extensionHelper('teaser_tracking', data, element);
+    }
 };
 
 /**
@@ -128,9 +132,9 @@ const contentEngagementHandler = (data, element) => {
 /**
  * @param {Object} data
  * @param {Array} keys
- * @param {HTMLElement} element
+ * @param {HTMLElement|null} [element]
  */
-const generalHandler = (data, keys, element) => {
+const generalHandler = (data, keys, element = null) => {
     // setTimeout(() => {
     const productStatusFilter = /^(?:view|basket|list|confirmation)$/;
     const trackFilter = /^(?:track|trackAction|trackPage)$/;
@@ -147,9 +151,6 @@ const generalHandler = (data, keys, element) => {
             switch (key) {
                 case 'action':
                     actionHandler(data);
-                    break;
-                case 'page':
-                    pageHandler(data);
                     break;
                 case 'customer':
                     customerHandler(data);

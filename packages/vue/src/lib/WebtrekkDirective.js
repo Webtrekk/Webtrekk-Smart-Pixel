@@ -1,8 +1,8 @@
 import {generalHandler} from './handlerFunctions';
 
-export default {
+const webtrekkDirective = {
     name: 'webtrekk',
-    inserted: function(element, binding) {
+    mounted: function(element, binding) {
         const dataValue = binding.value;
         const mode = binding.modifiers;
         const keyValues = typeof dataValue === 'object' ? Object.keys(dataValue) : [];
@@ -32,3 +32,6 @@ export default {
         }
     }
 };
+webtrekkDirective.inserted = webtrekkDirective.mounted;
+
+export default webtrekkDirective;

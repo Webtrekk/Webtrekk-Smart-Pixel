@@ -6,7 +6,6 @@
     },
     "scripts": {
         "build": "npm run build:core && npm run build:abtasty && npm run build:react && npm run build:angular && npm run build:vue && npm run build:vue",
-
         "// @webtrekk-smart-pixel/core": "",
         "build:core": "npm run install:core && npm run build-only:core",
         "build-only:core": "node ./scripts/closure/build.js core",
@@ -15,7 +14,6 @@
         "release:core": "npm run build:core && npm run test:core:dev && npm run test:core:prod && node ./scripts/release/copy.js core",
         "test:core:dev": "npm run express:start && node ./scripts/karma/start.js core dev",
         "test:core:prod": "npm run express:start && node ./scripts/karma/start.js core prod",
-
         "// @webtrekk-smart-pixel/abtasty": "",
         "build:abtasty": "npm run install:abtasty && npm run build-only:abtasty",
         "build-only:abtasty": "node ./scripts/closure/build.js abtasty",
@@ -23,7 +21,6 @@
         "release:abtasty": "npm run build:abtasty && npm run test:abtasty:dev && npm run test:abtasty:prod && node ./scripts/release/copy.js abtasty",
         "test:abtasty:dev": "node ./scripts/karma/start.js abtasty dev",
         "test:abtasty:prod": "node ./scripts/karma/start.js abtasty prod",
-
         "// @webtrekk-smart-pixel/angular": "",
         "build:angular": "npm run install:angular:8 && npm run build-only:angular",
         "build-only:angular": "cross-env ANGULAR_VERSION=8 ANGULAR=build node ./scripts/rollup/build.js angular",
@@ -58,7 +55,6 @@
         "test:angular:9": "npm run install:angular:8 && npm run jest:angular:9",
         "test:angular:latest": "npm run install:angular:latest && npm run jest:angular:latest",
         "test:angular:next": "npm run install:angular:next && npm run jest:angular:next",
-
         "// @webtrekk-smart-pixel/react": "",
         "build:react": "npm run install:react:16 && npm run build-only:react",
         "build-only:react": "cross-env REACT_VERSION=16 REACT=build node ./scripts/rollup/build.js react",
@@ -83,7 +79,6 @@
         "test:react:alpha": "npm run install:react:alpha && npm run jest:react:alpha",
         "test:react:latest": "npm run install:react:latest && npm run jest:react:latest",
         "test:react:next": "npm run install:react:next && npm run jest:react:next",
-
         "// @webtrekk-smart-pixel/next": "",
         "build:next": "npm run install:next:9 && npm run build-only:next",
         "build-only:next": "cross-env NEXT_VERSION=9 NEXT=build node ./scripts/rollup/build.js next",
@@ -106,7 +101,6 @@
         "test:next:9": "npm run install:next:9 && npm run jest:next:9",
         "test:next:canary": "npm run install:next:canary && npm run jest:next:canary",
         "test:next:latest": "npm run install:next:latest && npm run jest:next:latest",
-
         "// @webtrekk-smart-pixel/vue": "",
         "build:vue": "npm run install:vue:2.6 && npm run build-only:vue",
         "build-only:vue": "cross-env VUE_VERSION=2.6 VUE=build node ./scripts/rollup/build.js vue",
@@ -135,7 +129,6 @@
         "test:vue:latest": "npm run install:vue:latest && npm run jest:vue:latest",
         "test:vue:next": "npm run install:vue:next && npm run jest:vue:next",
         "test:vue:beta": "npm run install:vue:beta && npm run jest:vue:beta",
-
         "// @webtrekk-smart-pixel/nuxt": "",
         "install:nuxt:1": "node ./scripts/install/installer.js nuxt 1",
         "install:nuxt:2": "node ./scripts/install/installer.js nuxt 2",

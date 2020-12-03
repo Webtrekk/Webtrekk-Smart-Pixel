@@ -1,12 +1,16 @@
 import SmartPixelVue from './lib/WebtrekkSmartPixelVue';
 import WebtrekkDirective from './lib/WebtrekkDirective';
-import {wtBeforeRouteEnter, wtBeforeRouteLeave} from './lib/routerHookFunctions';
+import {wtBeforeRouteEnter, wtBeforeRouteLeave, mappBeforeResolve, autoTrack} from './lib/routerHookFunctions';
 
 const webtrekk = {
     install(Vue, webtrekkConfig) {
         // mounting Smartpixel to Vue instance so it is available under this.$webtrekk
-        Vue.prototype.$webtrekk = SmartPixelVue;
-
+        if (Vue.config && Vue.config.globalProperties) {
+            Vue.config.globalProperties.$webtrekk = SmartPixelVue;
+        }
+        else {
+            Vue.prototype.$webtrekk = SmartPixelVue;
+        }
         // initialization of global Webtrekk configuration
         SmartPixelVue.init(webtrekkConfig);
         SmartPixelVue.advanced(webtrekkConfig);
@@ -15,15 +19,25 @@ const webtrekk = {
             SmartPixelVue.extension('action');
         }
         if (webtrekkConfig.activateAutoTracking) {
-            Vue.mixin({
-                beforeRouteEnter(to, from, next) {
-                    wtBeforeRouteEnter(webtrekkConfig, next);
-                },
-                /* istanbul ignore next */
-                beforeRouteLeave(to, from, next) {
-                    wtBeforeRouteLeave(next);
-                }
-            });
+            if (webtrekkConfig.activateAutoTracking.beforeResolve) {
+                webtrekkConfig.activateAutoTracking.beforeResolve(to => {
+                    mappBeforeResolve(to, webtrekkConfig);
+                });
+                webtrekkConfig.activateAutoTracking.afterEach(async() => {
+                    autoTrack(webtrekkConfig);
+                });
+            }
+            else {
+                Vue.mixin({
+                    beforeRouteEnter(to, from, next) {
+                        wtBeforeRouteEnter(webtrekkConfig, next);
+                    },
+                    /* istanbul ignore next */
+                    beforeRouteLeave(to, from, next) {
+                        wtBeforeRouteLeave(next);
+                    }
+                });
+            }
         }
 
         // optional activation of teaser_tracking
