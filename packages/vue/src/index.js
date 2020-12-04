@@ -1,25 +1,14 @@
 import SmartPixelVue from './lib/WebtrekkSmartPixelVue';
 import WebtrekkDirective from './lib/WebtrekkDirective';
-import {wtBeforeRouteEnter, wtBeforeRouteLeave, mappBeforeResolve, autoTrack} from './lib/routerHookFunctions';
+import {wtBeforeRouteEnter, wtBeforeRouteLeave} from './lib/routerHookFunctions';
+import {mappBeforeResolve, autoTrack} from './lib/routerHookFunctionsV3';
 
 const webtrekk = {
     install(Vue, webtrekkConfig) {
-        // mounting Smartpixel to Vue instance so it is available under this.$webtrekk
-        if (Vue.config && Vue.config.globalProperties) {
+        const isVue3 = Vue.hasOwnProperty('config') && Vue.config.hasOwnProperty('globalProperties');
+        if (isVue3) {
             Vue.config.globalProperties.$webtrekk = SmartPixelVue;
-        }
-        else {
-            Vue.prototype.$webtrekk = SmartPixelVue;
-        }
-        // initialization of global Webtrekk configuration
-        SmartPixelVue.init(webtrekkConfig);
-        SmartPixelVue.advanced(webtrekkConfig);
-        // optional activation of auto linktracking
-        if (webtrekkConfig.activateLinkTracking) {
-            SmartPixelVue.extension('action');
-        }
-        if (webtrekkConfig.activateAutoTracking) {
-            if (webtrekkConfig.activateAutoTracking.beforeResolve) {
+            if (webtrekkConfig.activateAutoTracking && webtrekkConfig.activateAutoTracking.beforeResolve) {
                 webtrekkConfig.activateAutoTracking.beforeResolve(to => {
                     mappBeforeResolve(to, webtrekkConfig);
                 });
@@ -27,7 +16,10 @@ const webtrekk = {
                     autoTrack(webtrekkConfig);
                 });
             }
-            else {
+        }
+        else {
+            Vue.prototype.$webtrekk = SmartPixelVue;
+            if (webtrekkConfig.activateAutoTracking) {
                 Vue.mixin({
                     beforeRouteEnter(to, from, next) {
                         wtBeforeRouteEnter(webtrekkConfig, next);
@@ -38,6 +30,14 @@ const webtrekk = {
                     }
                 });
             }
+        }
+
+        // initialization of global Webtrekk configuration
+        SmartPixelVue.init(webtrekkConfig);
+        SmartPixelVue.advanced(webtrekkConfig);
+        // optional activation of auto linktracking
+        if (webtrekkConfig.activateLinkTracking) {
+            SmartPixelVue.extension('action');
         }
 
         // optional activation of teaser_tracking

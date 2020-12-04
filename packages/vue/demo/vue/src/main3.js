@@ -3,7 +3,7 @@ import { createApp } from 'vue';
 import WebtrekkSmartpixelVue from '../../../../vue/src/index';
 import App from './App.vue';
 import Home from './views/Home3.vue';
-// import store from './store/index';
+import store from './store3/index';
 
 import { createWebHistory, createRouter } from "vue-router";
 
@@ -40,30 +40,6 @@ const routerInstance = createRouter({
     routes,
 });
 
-// console.log('routes: ', routes);
-// console.log(routes[0].component.setup);
-
-
-// router.beforeResolve( to => {
-//
-//     if(to.matched[0].components.default.data) {
-//         console.log('add Data ', to.matched[0].components.default.data());
-//     }
-// });
-// router.afterEach((to, from) => {
-//     console.log('track');
-// })
-
-//
-// const router = createRouter({
-//     mode: 'history',
-//     base: process.env.BASE_URL,
-//     routes:
-// })
-
-// app.use(router);
-// const routerInstance = new VueRouter();
-
 const webtrekkConfig = {
     trackId: '136699033798929',
     trackDomain: 'analytics01.wt-eu02.net',
@@ -76,9 +52,11 @@ const webtrekkConfig = {
 
 const app = createApp(App);
 app.use(routerInstance);
-// app.use(store);
+app.use(store);
 app.use(WebtrekkSmartpixelVue, webtrekkConfig);
 app.mount('#app');
+
+export default app;
 
 // new Vue({
 //     router: routerInstance,
