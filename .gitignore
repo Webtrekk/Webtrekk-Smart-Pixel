@@ -41,6 +41,11 @@ packages/*/dist/*
 !scripts/webpack/
 !scripts/color.js
 
+# E2E
+!tests/server/
+!tests/E2E/
+!tests/fixture/
+
 # temp files
 **/.tmp/*
 **/.next/*
