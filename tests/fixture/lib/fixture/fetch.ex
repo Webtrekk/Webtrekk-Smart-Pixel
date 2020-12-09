@@ -22,6 +22,15 @@ defmodule Fixture.Fetch do
     Fetch.index_value(Fetch.data(key), index)
   end
 
+  def data(key, prop, value) do
+      Fetch.filter(Fetch.data(key), prop, value)
+  end
+
+  def filter(data, prop, value) when is_list(data) do
+      Enum.filter(data, fn entry -> entry[prop] == value end)
+  end
+  def filter(_,_,_), do: nil
+
   def index_value(data, index) when is_list(data),
     do: Fetch.parse_index_value(Enum.fetch(data, index))
 

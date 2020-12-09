@@ -9,3 +9,5 @@ Fixture.data("users")
 Fixture.data("products", 2) # 2 is the index of the product list
 ```
 
+
+

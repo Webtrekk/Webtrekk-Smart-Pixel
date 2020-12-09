@@ -5,4 +5,5 @@ defmodule Fixture do
   defdelegate data(), to: Fetch
   defdelegate data(key), to: Fetch
   defdelegate data(key, index), to: Fetch
+  defdelegate data(key, prop, value), to: Fetch
 end
