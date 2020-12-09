@@ -23,13 +23,14 @@ defmodule Fixture.Fetch do
   end
 
   def data(key, prop, value) do
-      Fetch.filter(Fetch.data(key), prop, value)
+    Fetch.filter(Fetch.data(key), prop, value)
   end
 
   def filter(data, prop, value) when is_list(data) do
-      Enum.filter(data, fn entry -> entry[prop] == value end)
+    Enum.filter(data, fn entry -> entry[prop] == value end)
   end
-  def filter(_,_,_), do: nil
+
+  def filter(_, _, _), do: nil
 
   def index_value(data, index) when is_list(data),
     do: Fetch.parse_index_value(Enum.fetch(data, index))
@@ -53,7 +54,7 @@ defmodule Fixture.Fetch do
   end
 
   defp json_files() do
-    "../../assets/*.json"
+    "../../../E2E/cypress/fixtures/*.json"
     |> Path.expand(__DIR__)
     |> Path.wildcard()
     |> Enum.map(&Fetch.json_data/1)
