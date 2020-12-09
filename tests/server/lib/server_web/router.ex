@@ -2,12 +2,22 @@ defmodule ServerWeb.Router do
   use ServerWeb, :router
 
   pipeline :api do
+    plug CORSPlug, origin: ~r/.*/
     plug :accepts, ["json"]
   end
 
   scope "/api", ServerWeb do
     pipe_through :api
     resources "/users", UserController, except: [:new, :edit]
+    get "/fixture/", FixtureController, :index
+    get "/fixture/:key", FixtureController, :show
+    get "/fixture/:key/:index", FixtureController, :show
+    get "/fixture/:key/:prop/:value", FixtureController, :show
+  end
+
+  scope "/wt", ServerWeb do
+     pipe_through :api
+     get "/", TrackServerController, :index
   end
 
   # Enables LiveDashboard only for development

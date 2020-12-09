@@ -27,7 +27,7 @@ defmodule Fixture.Fetch do
   end
 
   def filter(data, prop, value) when is_list(data) do
-    Enum.filter(data, fn entry -> entry[prop] == value end)
+    Enum.filter(data, fn entry -> Regex.match?(~r/#{entry[prop]}/, value) end)
   end
 
   def filter(_, _, _), do: nil
@@ -42,7 +42,6 @@ defmodule Fixture.Fetch do
 
   def json_data(path) do
     path
-    |> Path.expand(__DIR__)
     |> File.read!()
     |> Jason.decode!()
     |> name(path)
