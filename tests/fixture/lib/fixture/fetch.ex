@@ -13,17 +13,55 @@ defmodule Fixture.Fetch do
 
   def data(key) do
     Agent.get(@me, fn data ->
-      Map.fetch(data, key)
-      |> Fetch.handle_result()
+      data
+      |> Fetch.fetch_key(key)
     end)
   end
 
+  def fetch_key(data, key) do
+    Map.fetch(data, key)
+    |> case do
+      {:ok, result} -> result
+      :error -> :error
+    end
+  end
+
   def data(key, index) do
-    Fetch.index_value(Fetch.data(key), index)
+    Agent.get(@me, fn data ->
+      data
+      |> Fetch.fetch_key(key)
+      |> Fetch.index_value(index)
+    end)
+  end
+
+  def index_value(data, index) when is_list(data) do
+    Enum.fetch(data, Fetch.parse_index(index))
+    |> case do
+      {:ok, product} -> product
+      _ -> nil
+    end
+  end
+
+  def index_value(_), do: nil
+
+  def parse_index(index) do
+    is_number(index)
+    |> case do
+      true -> index
+      false -> Integer.parse(index)
+    end
+    |> case do
+      {number, _} -> number
+      number -> number
+    end
   end
 
   def data(key, prop, value) do
-    Fetch.filter(Fetch.data(key), prop, value)
+    Agent.get(@me, fn data ->
+      data
+      |> Fetch.fetch_key(key)
+      |> Fetch.filter(prop, value)
+    end)
   end
 
   def filter(data, prop, value) when is_list(data) do
@@ -31,14 +69,6 @@ defmodule Fixture.Fetch do
   end
 
   def filter(_, _, _), do: nil
-
-  def index_value(data, index) when is_list(data),
-    do: Fetch.parse_index_value(Enum.fetch(data, index))
-
-  def index_value(_), do: nil
-
-  def parse_index_value({:ok, product}), do: product
-  def parse_index_value(_), do: nil
 
   def json_data(path) do
     path
@@ -63,7 +93,4 @@ defmodule Fixture.Fetch do
       end)
     end)
   end
-
-  def handle_result({:ok, result}), do: result
-  def handle_result(:error), do: :error
 end

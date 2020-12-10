@@ -1,5 +1,4 @@
 defmodule Fixture do
-
   alias Fixture.Fetch
 
   defdelegate data(), to: Fetch
