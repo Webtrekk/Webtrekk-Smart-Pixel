@@ -45,6 +45,7 @@ packages/*/dist/*
 !tests/server/
 !tests/E2E/
 !tests/fixture/
+!tests/apps/
 
 # temp files
 **/.tmp/*

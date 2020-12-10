@@ -44,17 +44,14 @@ defmodule Fixture.Fetch do
 
   def index_value(_), do: nil
 
-  def parse_index(index) do
-    is_number(index)
-    |> case do
-      true -> index
-      false -> Integer.parse(index)
-    end
-    |> case do
-      {number, _} -> number
-      number -> number
-    end
+  def parse_index(string) when is_binary(string) do
+      case Integer.parse(string) do
+          {number, _} -> number
+          :error -> 0
+      end
   end
+
+  def parse_index(number), do: number
 
   def data(key, prop, value) do
     Agent.get(@me, fn data ->

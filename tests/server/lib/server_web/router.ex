@@ -6,6 +6,15 @@ defmodule ServerWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :static do
+      plug Plug.Static,
+           at: "/apps",
+           from: {:server, "priv/apps"},
+           gzip: false,
+           only: ~w(vue3 vue react angular index.html manifest.json service-worker.js css fonts img js favicon.ico robots.txt),
+           only_matching: ["precache-manifest"]
+  end
+
   scope "/api", ServerWeb do
     pipe_through :api
     resources "/users", UserController, except: [:new, :edit]
@@ -18,6 +27,11 @@ defmodule ServerWeb.Router do
   scope "/wt", ServerWeb do
      pipe_through :api
      get "/", TrackServerController, :index
+  end
+
+  scope "/apps", ServerWeb do
+      pipe_through :static
+      get "/:app/*path", PageController, :index
   end
 
   # Enables LiveDashboard only for development
