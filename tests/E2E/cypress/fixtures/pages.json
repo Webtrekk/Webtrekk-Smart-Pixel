@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Mapp Intelligence Smartpixel E2E testsuite",
+        "id": 0,
+        "slug": "home",
+        "content": "<p>This is the official Mapp Intelligence Smartpixel E2E testsuite.</p><p>Powered by Cypress and Phoenix.</p>"
+    },
+    {
+        "title": "About",
+        "id": 1,
+        "slug": "about",
+        "content": "<p>Mapp Intelligence, former Webtrekk, ist part of Mapp Cloud.</p>"
+    },
+    {
+        "title": "Info",
+        "id": 2,
+        "slug": "info",
+        "content": "<p>This is an information page with no information.</p>"
+    },
+    {
+        "title": "Imprint",
+        "id": 3,
+        "slug": "imprint",
+        "content": "<p>Mapp Digital / Webtrekk, Robert Koch Platz 4, Berlin.</p>"
+    }
+]
