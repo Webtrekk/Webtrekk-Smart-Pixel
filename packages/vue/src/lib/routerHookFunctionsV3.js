@@ -20,6 +20,7 @@ export const mappBeforeResolve = (to) => {
     SmartPixelVue.clear();
     const routerComponent = to.matched[0].components.default;
     const componentMappData = [];
+    console.log(123, to);
     const getComponentMappDataRecursively = (component) => {
         if (component.data && component.data().webtrekk) {
             componentMappData.push(component.data().webtrekk);

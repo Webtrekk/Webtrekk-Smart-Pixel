@@ -2,7 +2,7 @@
 
 This Phoenix server has the following features / routes to help with E2E tests:
 
-- `/wt` endpoint as Trackserver replacement, will return parameter
+- `/123123123123123/wt` endpoint as Trackserver replacement, will return parameter
 - `/api/users` to save and get Users to a Postgres DB
 - `/api/fixture` to get fixture data from Cypress fixture directory
 - `/apps/[appname]` to host pre-built Vue, React and Angular apps
@@ -60,7 +60,7 @@ The user schema has these properties:
            fixture_path  GET     /api/fixture/:key               ServerWeb.FixtureController :show
            fixture_path  GET     /api/fixture/:key/:index        ServerWeb.FixtureController :show
            fixture_path  GET     /api/fixture/:key/:prop/:value  ServerWeb.FixtureController :show
-      track_server_path  GET     /wt                             ServerWeb.TrackServerController :index
+      track_server_path  GET     /123123123123123/wt             ServerWeb.TrackServerController :index
               page_path  GET     /apps/:app/*path                ServerWeb.PageController :index
     live_dashboard_path  GET     /dashboard                      Phoenix.LiveView.Plug :home
     live_dashboard_path  GET     /dashboard/:page                Phoenix.LiveView.Plug :page

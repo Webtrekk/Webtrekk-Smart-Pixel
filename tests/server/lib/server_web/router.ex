@@ -1,6 +1,10 @@
 defmodule ServerWeb.Router do
   use ServerWeb, :router
 
+  pipeline :image do
+      plug CORSPlug, origin: ~r/.*/
+  end
+
   pipeline :api do
     plug CORSPlug, origin: ~r/.*/
     plug :accepts, ["json"]
@@ -24,8 +28,8 @@ defmodule ServerWeb.Router do
     get "/fixture/:key/:prop/:value", FixtureController, :show
   end
 
-  scope "/wt", ServerWeb do
-     pipe_through :api
+  scope "/123123123123123/wt", ServerWeb do
+     pipe_through :image
      get "/", TrackServerController, :index
   end
 

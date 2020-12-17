@@ -1,15 +1,21 @@
 /// <reference types="cypress" />
+import {parseTrackrequest} from '../support';
 
 context('Vue', () => {
     beforeEach(() => {
-        cy.smartVisit('localhost:8080', {});
+        cy.smartIntercept();
     });
 
-    // https://on.cypress.io/interacting-with-elements
-
     it('pagerequest', () => {
-        cy.window().then(win => {
-            console.log('win', win.trackRequests);
+        cy.visit('localhost:8080/apps/vue3');
+        let trackData;
+        cy.wait('@trackRequest').then(inception => {
+            trackData = parseTrackrequest(inception);
+            console.log(trackData);
+        });
+        cy.wait('@trackRequest').then(inception => {
+            trackData = parseTrackrequest(inception);
+            console.log(trackData);
         });
     });
 });

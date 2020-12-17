@@ -14,7 +14,16 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands';
+
+export function parseTrackrequest(inception) {
+    let url = inception.request.url;
+    url = url.split('wt?')[1];
+    url = Object.fromEntries(new URLSearchParams(url));
+    url.p = url.p.split(',');
+    url.pageName = url.p[1];
+    return url;
+}
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

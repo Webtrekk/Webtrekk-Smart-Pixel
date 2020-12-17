@@ -24,19 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('smartVisit', (url, options = {}) => {
-    cy.visit(url, {
-        ...options,
-        onBeforeLoad: (contentWindow) => {
-            contentWindow.trackRequests = [];
-            Object.defineProperties(contentWindow.Image.prototype, {
-                src: {
-                    get: function() { return this.src; },
-                    set: function(trackUrl) {
-                        contentWindow.trackRequests.push(trackUrl);
-                    }
-                }
-            });
-        }
-    });
+Cypress.Commands.add('smartIntercept', () => {
+    cy.intercept('https://localhost:4001/123123123123123/wt').as('trackRequest');
 });
