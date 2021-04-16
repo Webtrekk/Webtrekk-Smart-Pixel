@@ -17,4 +17,8 @@ defmodule RequestLogger.Log do
 
     def update(request, state), do: [request | state ]
 
+    def reset() do
+        Agent.update(@me, fn _state -> [] end)
+    end
+
 end

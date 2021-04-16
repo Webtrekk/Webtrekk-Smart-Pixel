@@ -48,6 +48,8 @@ packages/*/dist/*
 !tests/request_logger/
 !tests/apps/
 !tests/admin/
+!tests/Makefile
+!tests/README.md
 
 # temp files
 **/.tmp/*

@@ -2,8 +2,12 @@
     import {Socket} from 'phoenix-socket';
     import {onMount} from "svelte";
 	const url = 'http://localhost:4000/requests/raw';
-	const getRequests = async () => {
-	    const response = await fetch(url);
+	const getRequests = async (doDelete) => {
+	    let u = url;
+	    if(doDelete) {
+	        u = u + '?action=delete';
+        }
+	    const response = await fetch(u);
 	    return response.json();
     }
 	let socket;
@@ -38,14 +42,18 @@
             .receive("ok", () => { console.log("Joined successfully") })
             .receive("error", () => { console.log("Unable to join") })
         channel.on("new_request", (t) => requests = [t, ...requests]);
-        socket.connect()
+        channel.on("delete_request", () => requests = []);
+        socket.connect();
         getRequests().then( d => requests = d );
     });
 
 </script>
 <body>
-{#if requests.length === 0}<div>No requests so far...</div>{/if}
+{#if requests.length === 0}
+    <div>No requests so far...</div>
+{:else}
     <div class="buttons">
+        <button id="del" on:click={()=>getRequests(true)}>DELETE</button>
         {#each filter as f}
             <button on:click={()=>filter=filter.filter(v=> v!==f )}>{f}</button>
         {/each}
@@ -70,6 +78,7 @@
             </tbody>
         </table>
     </div>
+{/if}
 </body>
 
 
@@ -120,5 +129,12 @@
     .buttons button:hover {
         background-color: #1b1e21;
         color:white;
+    }
+
+    #del {
+        background-color: indianred;
+    }
+    #del:hover {
+        background-color: darkred;
     }
 </style>
