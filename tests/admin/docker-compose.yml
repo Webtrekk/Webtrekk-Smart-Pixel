@@ -1,13 +1,31 @@
 version: '3.1'
 
 services:
+  phoenix:
+      build:
+          context: .
+      container_name: phoenix
+      ports:
+          - "4000:4000"
+          - "4001:4001"
+      networks:
+          - mapp
+      volumes:
+          - ../:/app
+      command: bash -c "
+          cd /app && make run_phoenix_inside_docker
+          "
   db:
-    image: postgres
-    environment:
-      POSTGRES_PASSWORD: postgres
-    ports:
-      - 5432:5432
-
+      image: postgres
+      container_name: db
+      environment:
+          POSTGRES_PASSWORD: postgres
+      ports:
+          - 5432:5432
+      networks:
+          - mapp
+networks:
+    mapp:
 #  adminer:
 #    image: adminer
 #    ports:

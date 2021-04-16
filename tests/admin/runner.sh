@@ -16,6 +16,17 @@ function start_server {
     log_info
 }
 
+function run_phoenix_inside_docker {
+    cd $SERVERPATH &&
+    sleep 2 &&
+    [[ -f ./priv/cert/selfsigned_key.pem ]] || mix phx.gen.cert &&
+    mix ecto.create &&
+    mix ecto.migrate
+    cd $SERVERPATH &&
+#    MIX_ENV=docker exec mix phx.server
+    MIX_ENV=docker elixir --sname mappe2e --cookie mappify -S mix phx.server
+}
+
 function stop_server {
     pkill beam.smp && db_stop
 }
@@ -49,8 +60,10 @@ function log_info {
     log "https://localhost:4001/api/fixture/api/fixture/:key/:prop/:value"
     log "Trackserver: https://localhost:4001/123123123123123/wt"
     log "Server Dashboard: https://localhost:4001/dashboard"
+}
 
-
+function iex_in_docker {
+    cd $SERVERPATH && iex --sname console --remsh mappe2e@$HOSTNAME --cookie mappify
 }
 
 

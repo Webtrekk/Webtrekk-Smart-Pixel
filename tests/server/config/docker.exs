@@ -2,12 +2,12 @@ use Mix.Config
 
 # Configure your database
 config :server, Server.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "server_dev",
-  hostname: "db",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+       username: "postgres",
+       password: "postgres",
+       database: "server_dev",
+       hostname: "db",
+       show_sensitive_data_on_connection_error: true,
+       pool_size: 10
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -16,17 +16,18 @@ config :server, Server.Repo,
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
 config :server, ServerWeb.Endpoint,
-  http: [port: 4000],
-  https: [
-      port: 4001,
-      cipher_suite: :strong,
-      certfile: "priv/cert/selfsigned.pem",
-      keyfile: "priv/cert/selfsigned_key.pem"
-  ],
-  debug_errors: true,
-  code_reloader: true,
-  check_origin: false,
-  watchers: []
+       url: [host: "phoenix"],
+       http: [port: 4000],
+       https: [
+           port: 4001,
+           cipher_suite: :strong,
+           certfile: "priv/cert/selfsigned.pem",
+           keyfile: "priv/cert/selfsigned_key.pem"
+       ],
+       debug_errors: true,
+       code_reloader: true,
+       check_origin: false,
+       watchers: []
 
 # ## SSL Support
 #

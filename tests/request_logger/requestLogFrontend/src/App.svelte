@@ -12,6 +12,7 @@
     }
 	let socket;
 	let channel;
+	let amountOfNewRequests = 0;
     let requests = [];
     let filter = [];
     $: header = (() => {
@@ -34,51 +35,55 @@
         return table;
     })();
 
-
     onMount( () => {
         socket = new Socket("ws://127.0.0.1:4000/socket")
+        socket.connect();
         channel = socket.channel("requests:lobby", {})
         channel.join()
-            .receive("ok", () => { console.log("Joined successfully") })
+            .receive("ok", () => { getRequests().then( d => requests = d ); })
             .receive("error", () => { console.log("Unable to join") })
-        channel.on("new_request", (t) => requests = [t, ...requests]);
+        channel.on("new_request", (t) => {
+            amountOfNewRequests++;
+            requests = [t, ...requests];
+            setTimeout(() => {
+                amountOfNewRequests--;
+            },2000);
+        });
         channel.on("delete_request", () => requests = []);
-        socket.connect();
-        getRequests().then( d => requests = d );
     });
-
 </script>
+
 <body>
-{#if requests.length === 0}
-    <div>No requests so far...</div>
-{:else}
-    <div class="buttons">
-        <button id="del" on:click={()=>getRequests(true)}>DELETE</button>
-        {#each filter as f}
-            <button on:click={()=>filter=filter.filter(v=> v!==f )}>{f}</button>
-        {/each}
-    </div>
-    <div class="container">
-        <table>
-            <thead>
-            <tr>
-                {#each header as header(header)}
-                    <th on:click={()=>{filter= [...filter, header]}}>{header}</th>
-                {/each}
-            </tr>
-            </thead>
-            <tbody>
-            {#each tableRows as row}
+    {#if requests.length === 0}
+        <div>No requests so far...</div>
+    {:else}
+        <div class="buttons">
+            <button id="del" on:click={()=>getRequests(true)}>DELETE</button>
+            {#each filter as f}
+                <button on:click={()=>filter=filter.filter(v=> v!==f )}>{f}</button>
+            {/each}
+        </div>
+        <div class="container">
+            <table>
+                <thead>
                 <tr>
                     {#each header as header(header)}
-                        <td>{row[header]}</td>
+                        <th on:click={()=>{filter= [...filter, header]}}>{header}</th>
                     {/each}
                 </tr>
-            {/each}
-            </tbody>
-        </table>
-    </div>
-{/if}
+                </thead>
+                <tbody>
+                {#each tableRows as row, i}
+                    <tr>
+                        {#each header as header(header)}
+                            <td class:isnew={amountOfNewRequests > i}>{row[header]}</td>
+                        {/each}
+                    </tr>
+                {/each}
+                </tbody>
+            </table>
+        </div>
+    {/if}
 </body>
 
 
@@ -115,6 +120,9 @@
         background-color: #1b1e21;
         color:white;
     }
+    .isnew {
+        background-color: #88e29b;
+    }
 
     .buttons button {
         background-color: #0c5460;
@@ -125,12 +133,10 @@
         margin-bottom: 5px;
         margin-right: 2px;
     }
-
     .buttons button:hover {
         background-color: #1b1e21;
         color:white;
     }
-
     #del {
         background-color: indianred;
     }
