@@ -1,24 +1,25 @@
 <template>
     <div class="home">
-        <img alt="Vue logo" src="../assets/logo.png" />
-        <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+        <h2>{{ content.title }}</h2>
+        <p v-html="content.content"></p>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import HelloWorld from "@/components/HelloWorld.vue";
+import { getFixtureData } from "@/helpers/fixture";
 
 export default defineComponent({
     name: "Home",
-    props: {
-        msg: {
-            type: String,
-            required: false
-        }
+    data() {
+        return {
+            content: {}
+        };
     },
-    components: {
-        HelloWorld
+    beforeCreate() {
+        getFixtureData("pages/slug/home", data => {
+            this.content = data[0];
+        });
     }
 });
 </script>

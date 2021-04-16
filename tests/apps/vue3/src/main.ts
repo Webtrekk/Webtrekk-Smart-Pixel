@@ -4,6 +4,7 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 import WebtrekkSmartpixelVue from "../../../../packages/vue/src/index";
+import "../../styles.css";
 
 const webtrekkConfig = {
     trackId: "123123123123123",

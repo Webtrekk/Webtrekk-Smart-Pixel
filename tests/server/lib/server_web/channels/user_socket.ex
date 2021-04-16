@@ -2,7 +2,7 @@ defmodule ServerWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", ServerWeb.RoomChannel
+   channel "requests:*", ServerWeb.RequestsChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

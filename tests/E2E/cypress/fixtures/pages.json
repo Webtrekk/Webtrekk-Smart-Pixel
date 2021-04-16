@@ -22,5 +22,11 @@
         "id": 3,
         "slug": "imprint",
         "content": "<p>Mapp Digital / Webtrekk, Robert Koch Platz 4, Berlin.</p>"
+    },
+    {
+        "title": "Shop - Article overview",
+        "id": 4,
+        "slug": "shop",
+        "content": "<p>Find all our products here!</p>"
     }
 ]

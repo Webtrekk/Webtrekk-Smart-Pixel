@@ -45,7 +45,9 @@ packages/*/dist/*
 !tests/server/
 !tests/E2E/
 !tests/fixture/
+!tests/request_logger/
 !tests/apps/
+!tests/admin/
 
 # temp files
 **/.tmp/*

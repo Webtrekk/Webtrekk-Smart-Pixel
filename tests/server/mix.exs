@@ -44,6 +44,7 @@ defmodule Server.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:fixture, path: "../fixture" },
+      {:request_logger, path: "../request_logger" },
       {:cors_plug, "~> 2.0"}
     ]
   end

@@ -15,7 +15,7 @@ defmodule ServerWeb.Router do
            at: "/apps",
            from: {:server, "priv/apps"},
            gzip: false,
-           only: ~w(vue3 vue react angular index.html manifest.json service-worker.js css fonts img js favicon.ico robots.txt),
+           only: ~w(vue3 vue react angular requests index.html manifest.json service-worker.js css fonts img js favicon.ico robots.txt),
            only_matching: ["precache-manifest"]
   end
 
@@ -31,6 +31,11 @@ defmodule ServerWeb.Router do
   scope "/123123123123123/wt", ServerWeb do
      pipe_through :image
      get "/", TrackServerController, :index
+  end
+
+  scope "/requests", ServerWeb do
+      pipe_through :api
+      get "/raw/", RequestLoggerController, :index
   end
 
   scope "/apps", ServerWeb do

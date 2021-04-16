@@ -28,4 +28,3 @@ server-*.tar
 /priv/static/
 
 /.elixir_ls
-/priv/apps/

@@ -2,7 +2,7 @@
 
 This Phoenix server has the following features / routes to help with E2E tests:
 
-- `/123123123123123/wt` endpoint as Trackserver replacement, will return parameter
+- `/123123123123123/wt` endpoint as Trackserver replacement
 - `/api/users` to save and get Users to a Postgres DB
 - `/api/fixture` to get fixture data from Cypress fixture directory
 - `/apps/[appname]` to host pre-built Vue, React and Angular apps
