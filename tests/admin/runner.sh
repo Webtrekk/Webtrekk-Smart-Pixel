@@ -10,20 +10,15 @@ function log {
 }
 
 function start_server {
-    cd $ADMINPATH && docker top admin_db_1 || db_start &&
     cd $SERVERPATH &&
+    [[ -f ./priv/cert/selfsigned_key.pem ]] || mix phx.gen.cert &&
     PORT=4000 MIX_ENV=dev elixir --erl "-detached" -S mix phx.server &&
     log_info
 }
 
 function run_phoenix_inside_docker {
     cd $SERVERPATH &&
-    sleep 2 &&
     [[ -f ./priv/cert/selfsigned_key.pem ]] || mix phx.gen.cert &&
-    mix ecto.create &&
-    mix ecto.migrate
-    cd $SERVERPATH &&
-#    MIX_ENV=docker exec mix phx.server
     MIX_ENV=docker elixir --sname mappe2e --cookie mappify -S mix phx.server
 }
 
@@ -32,26 +27,15 @@ function stop_server {
 }
 
 function debug_server_start {
-    cd $ADMINPATH && docker top admin_db_1 || db_start
-    cd $SERVERPATH && iex -S mix phx.server
-}
-
-function db_start {
-    cd $ADMINPATH && docker-compose up -d &&
     cd $SERVERPATH &&
-    sleep 2 &&
     [[ -f ./priv/cert/selfsigned_key.pem ]] || mix phx.gen.cert &&
-    mix ecto.create &&
-    mix ecto.migrate
-}
-
-function db_stop {
-    cd $ADMINPATH && docker-compose down
+    MIX_ENV=dev iex -S mix phx.server
 }
 
 function log_info {
     log "Server URLS:"
-    log "Request logger: https://localhost:4001/apps/requests"
+    log "https://localhost:4001/"
+    log "Request logger: https://localhost:4001/requests"
     log "Vue3: https://localhost:4001/apps/vue3"
     log "Fixture Service:"
     log "https://localhost:4001/api/fixture "

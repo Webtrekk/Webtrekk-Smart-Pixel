@@ -1,7 +1,7 @@
 <script>
     import {Socket} from 'phoenix-socket';
     import {onMount} from "svelte";
-	const url = 'http://localhost:4000/requests/raw';
+	const url = 'http://localhost:4000/requests/json';
 	const getRequests = async (doDelete) => {
 	    let u = url;
 	    if(doDelete) {
@@ -88,7 +88,7 @@
 
 
 <style>
-    table {
+    :global(table) {
         font-size: small;
         width:100%;
     }

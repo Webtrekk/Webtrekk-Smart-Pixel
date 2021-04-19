@@ -1,0 +1,2 @@
+<style><%= raw @css %></style>
+<script><%= raw @js %></script>

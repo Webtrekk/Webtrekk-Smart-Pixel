@@ -1,0 +1,40 @@
+<header>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <section class="container">
+        <a href="https://mapp.com/">
+            <img src="<%= Routes.static_path(@conn, "/images/mapp.png") %>" alt="Mapp logo"/>
+        </a>
+    </section>
+</header>
+<main role="main" class="container">
+    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+<section class="phx-hero">
+  <h1>End 2 end test suite</h1>
+</section>
+
+<section class="row">
+  <article class="column">
+    <h2>Service</h2>
+    <ul>
+      <li>
+        <a href="./requests">Trackrequest logger</a>
+      </li>
+      <li>
+          <%= link "Server LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %>
+      </li>
+    </ul>
+  </article>
+  <article class="column">
+    <h2>Apps</h2>
+    <ul>
+        <li><a href="./apps/html">HTML</a></li>
+        <li><a href="./apps/vue2">VueJS 2</a></li>
+        <li><a href="./apps/vue3">VueJS 3</a></li>
+        <li><a href="./apps/react">React</a></li>
+        <li><a href="./apps/angular">Angular</a></li>
+    </ul>
+  </article>
+</section>
+</main>

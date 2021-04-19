@@ -11,7 +11,11 @@ defmodule RequestLogger.Application do
         %{
             id: RequestLogger.Log,
             start: {RequestLogger.Log, :start_link, []}
-        }
+        },
+        %{
+            id: RequestLogger.App,
+            start: {RequestLogger.App, :start_link, []}
+        },
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

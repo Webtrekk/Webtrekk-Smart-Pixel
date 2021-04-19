@@ -1,13 +1,21 @@
 defmodule ServerWeb.Router do
   use ServerWeb, :router
 
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
   pipeline :image do
       plug CORSPlug, origin: ~r/.*/
   end
 
   pipeline :api do
-    plug CORSPlug, origin: ~r/.*/
-    plug :accepts, ["json"]
+      plug CORSPlug, origin: ~r/.*/
+      plug :accepts, ["json"]
   end
 
   pipeline :static do
@@ -19,29 +27,40 @@ defmodule ServerWeb.Router do
            only_matching: ["precache-manifest"]
   end
 
+  scope "/", ServerWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
+    get "/requests", PageController, :requests
+  end
+
   scope "/api", ServerWeb do
-    pipe_through :api
-    resources "/users", UserController, except: [:new, :edit]
-    get "/fixture/", FixtureController, :index
-    get "/fixture/:key", FixtureController, :show
-    get "/fixture/:key/:index", FixtureController, :show
-    get "/fixture/:key/:prop/:value", FixtureController, :show
+      pipe_through :api
+      get "/fixture/", FixtureController, :index
+      get "/fixture/:key", FixtureController, :show
+      get "/fixture/:key/:index", FixtureController, :show
+      get "/fixture/:key/:prop/:value", FixtureController, :show
   end
 
   scope "/123123123123123/wt", ServerWeb do
-     pipe_through :image
-     get "/", TrackServerController, :index
+      pipe_through :image
+      get "/", TrackServerController, :index
   end
 
   scope "/requests", ServerWeb do
       pipe_through :api
-      get "/raw/", RequestLoggerController, :index
+      get "/json/", RequestLoggerController, :index
   end
 
   scope "/apps", ServerWeb do
       pipe_through :static
-      get "/:app/*path", PageController, :index
+      get "/:app/*path", AppController, :index
   end
+
+  # Other scopes may use custom stacks.
+  # scope "/api", ServerWeb do
+  #   pipe_through :api
+  # end
 
   # Enables LiveDashboard only for development
   #
@@ -54,7 +73,7 @@ defmodule ServerWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through [:fetch_session, :protect_from_forgery]
+      pipe_through :browser
       live_dashboard "/dashboard", metrics: ServerWeb.Telemetry
     end
   end

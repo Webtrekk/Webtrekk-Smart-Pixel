@@ -1,4 +1,4 @@
-.PHONY: start_server stop_server debug_server_start db_stop db_start docker_start docker_stop docker_start_debug run_phoenix_inside_docker docker_iex
+.PHONY: start_server stop_server debug_server_start docker_start docker_stop docker_start_debug run_phoenix_inside_docker docker_iex
 
 start_server:
 	bash ./admin/runner.sh start_server
@@ -8,12 +8,6 @@ stop_server:
 
 debug_server_start:
 	bash ./admin/runner.sh debug_server_start
-
-db_stop:
-	bash ./admin/runner.sh db_stop
-
-db_start:
-	bash ./admin/runner.sh db_start
 
 docker_start:
 	cd ./admin && docker-compose up -d && cd .. && bash ./admin/runner.sh log_info
