@@ -16,7 +16,7 @@ export default defineComponent({
     data() {
         return {
             content: {},
-            products: [1, 2, 3]
+            products: []
         };
     },
     components: {

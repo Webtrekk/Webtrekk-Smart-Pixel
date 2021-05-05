@@ -8,11 +8,11 @@
 import { defineComponent } from "vue";
 
 export default defineComponent({
-    name: "ProductList",
+    name: "ProductPreview",
     props: {
-        products: {
-            type: Array,
-            required: false
+        product: {
+            type: Object,
+            required: true
         }
     }
 });
