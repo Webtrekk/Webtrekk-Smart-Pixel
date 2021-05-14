@@ -17,7 +17,7 @@ export default defineComponent({
         };
     },
     beforeCreate() {
-        getFixtureData("pages/slug/home", data => {
+        getFixtureData("pages/slug/home").then((data) => {
             this.content = data[0];
         });
     }

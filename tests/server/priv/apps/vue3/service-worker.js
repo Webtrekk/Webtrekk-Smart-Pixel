@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/apps/vue3/precache-manifest.a58cf70045af5b80b2f8b5d75703bcc0.js"
+  "/apps/vue3/precache-manifest.edc907b4b18b170579123c1f02e580d1.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "mapp-demo-shop"});

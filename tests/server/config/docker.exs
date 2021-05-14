@@ -16,7 +16,7 @@ config :server, ServerWeb.Endpoint,
            keyfile: "priv/cert/selfsigned_key.pem"
        ],
        debug_errors: true,
-       code_reloader: true,
+       code_reloader: false,
        check_origin: false,
        watchers: [
            node: [

@@ -1,4 +1,4 @@
-.PHONY: start_server stop_server debug_server_start docker_start docker_stop docker_start_debug run_phoenix_inside_docker docker_iex
+.PHONY: start_server stop_server debug_server_start docker_start docker_stop docker_start_debug run_phoenix_inside_docker docker_iex prepare_coverage
 
 start_server:
 	bash ./admin/runner.sh start_server
@@ -23,3 +23,6 @@ run_phoenix_inside_docker:
 
 docker_iex:
 	docker exec -it phoenix bash -c "chmod +x /app/admin/runner.sh && /app/admin/runner.sh iex_in_docker"
+
+prepare_coverage:
+	bash ./admin/runner.sh prepare_coverage

@@ -50,6 +50,8 @@ packages/*/dist/*
 !tests/admin/
 !tests/Makefile
 !tests/README.md
+tests/E2E/coverage
+tests/E2E/.nyc_output
 
 # temp files
 **/.tmp/*

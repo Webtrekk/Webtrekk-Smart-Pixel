@@ -7,12 +7,8 @@ context('Vue', () => {
     });
 
     it('pagerequest', () => {
-        cy.visit('localhost:8080/apps/vue3');
+        cy.visit('http://localhost:4000/apps/vue3/');
         let trackData;
-        cy.wait('@trackRequest').then(inception => {
-            trackData = parseTrackrequest(inception);
-            console.log(trackData);
-        });
         cy.wait('@trackRequest').then(inception => {
             trackData = parseTrackrequest(inception);
             console.log(trackData);

@@ -3,7 +3,8 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
-import WebtrekkSmartpixelVue from "../../../../packages/vue/src/index";
+// import WebtrekkSmartpixelVue from "../../../../packages/vue/src/index";
+import WebtrekkSmartpixelVue from "../plugin/src/index";
 import "../../styles.css";
 
 const webtrekkConfig = {

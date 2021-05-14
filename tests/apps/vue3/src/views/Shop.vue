@@ -23,10 +23,10 @@ export default defineComponent({
         ProductList
     },
     beforeCreate() {
-        getFixtureData("pages/slug/shop", data => {
+        getFixtureData("pages/slug/shop").then((data) => {
             this.content = data[0];
         });
-        getFixtureData("products", data => {
+        getFixtureData("products").then((data) => {
             this.products = data;
         });
     }

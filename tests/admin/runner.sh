@@ -2,7 +2,10 @@
 
 SCRIPT=$(readlink -f "$0")
 ADMINPATH=$(dirname "$SCRIPT")
-SERVERPATH=$ADMINPATH/../server
+ROOTPATH=${ADMINPATH%/tests/admin}
+SERVERPATH=$ROOTPATH/tests/server
+APPSPATH=$ROOTPATH/tests/apps
+PACKAGEPATH=$ROOTPATH/packages
 
 function log {
 	tput setaf 5; echo $1
@@ -10,6 +13,7 @@ function log {
 }
 
 function start_server {
+
     cd $SERVERPATH &&
     [[ -f ./priv/cert/selfsigned_key.pem ]] || mix phx.gen.cert &&
     PORT=4000 MIX_ENV=dev elixir --erl "-detached" -S mix phx.server &&
@@ -17,15 +21,14 @@ function start_server {
 }
 
 function run_phoenix_inside_docker {
-    cd $SERVERPATH &&
+    cd ./server &&
     [[ -f ./priv/cert/selfsigned_key.pem ]] || mix phx.gen.cert &&
     MIX_ENV=docker elixir --sname mappe2e --cookie mappify -S mix phx.server
 }
 
 function stop_server {
-    pkill beam.smp && db_stop
+    pkill beam.smp
 }
-
 function debug_server_start {
     cd $SERVERPATH &&
     [[ -f ./priv/cert/selfsigned_key.pem ]] || mix phx.gen.cert &&
@@ -47,7 +50,12 @@ function log_info {
 }
 
 function iex_in_docker {
-    cd $SERVERPATH && iex --sname console --remsh mappe2e@$HOSTNAME --cookie mappify
+    cd /app/server && iex --sname console --remsh mappe2e@$HOSTNAME --cookie mappify
+}
+
+function prepare_coverage {
+    log "Create symbolic link from Vue Plugin src to E2E vue app..."
+    ln -s -f $PACKAGEPATH/vue/src/ $APPSPATH/vue3/plugin/src
 }
 
 
