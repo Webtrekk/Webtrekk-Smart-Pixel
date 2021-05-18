@@ -8,7 +8,7 @@ defmodule ServerWeb.Authenticator do
       nil ->
         sendUnauthorizedResponse(conn, "Unauthorized")
       token ->
-        authenticateToken(conn, PseudoDb.User.verifyToken("#{token}"))
+        authenticateToken(conn, PseudoDb.User.verifyToken(token))
     end
   end
 

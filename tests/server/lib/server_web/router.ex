@@ -57,7 +57,8 @@ defmodule ServerWeb.Router do
 
   scope "/order", ServerWeb do
       pipe_through [:api, :with_session]
-      get "/register", UserController, :user
+      get "/new", UserController, :add_order
+      post "/new", UserController, :add_order
   end
 
   scope "/123123123123123/wt", ServerWeb do

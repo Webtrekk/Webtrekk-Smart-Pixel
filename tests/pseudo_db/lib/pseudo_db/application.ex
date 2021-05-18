@@ -13,7 +13,11 @@ defmodule PseudoDb.Application do
         %{
             id: PseudoDb.User,
             start: {PseudoDb.User, :start_link, []}
-        }
+        },
+        %{
+            id: PseudoDb.Order,
+            start: {PseudoDb.Order, :start_link, []}
+        },
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
