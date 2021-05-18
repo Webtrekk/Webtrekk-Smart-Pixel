@@ -1,11 +1,13 @@
 <template>
-    <div class="productlist">
-        <p>TEST: {{ JSON.stringify(products)}}</p>
+    <div class="productlist" v-for="product in products" :key="product.id">
+        <ProductPreview :product="product" />
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import ProductPreview from "@/components/ProductPreview.vue";
+
 
 export default defineComponent({
     name: "ProductList",
@@ -14,6 +16,9 @@ export default defineComponent({
             type: Array,
             required: false
         }
+    },
+    components: {
+        ProductPreview
     }
 });
 </script>

@@ -1,4 +1,4 @@
-
+/*Navbar*/
 nav>ul {
     list-style-type: none;
     margin: 0;
@@ -21,4 +21,40 @@ nav>ul>li>a {
 
 nav>ul>li>a:hover:not(.active) {
     background-color: #111;
+}
+
+/*Product card*/
+.card {
+    position: relative;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: 20px;
+    text-align: center;
+    font-family: arial;
+    float: left;
+    height: 600px;
+}
+
+.price {
+    color: grey;
+    font-size: 22px;
+}
+
+.card button {
+    position: absolute;
+    bottom: 0;
+    left:0;
+    border: none;
+    outline: 0;
+    padding: 12px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+}
+
+.card button:hover {
+    opacity: 0.7;
 }

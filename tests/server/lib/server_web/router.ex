@@ -10,21 +10,27 @@ defmodule ServerWeb.Router do
   end
 
   pipeline :image do
-      plug CORSPlug, origin: ~r/.*/
+    plug CORSPlug, origin: ~r/.*/
+  end
+
+  pipeline :with_session do
+      plug :fetch_session
+      plug ServerWeb.Authenticator
   end
 
   pipeline :api do
-      plug CORSPlug, origin: ~r/.*/
-      plug :accepts, ["json"]
+    plug CORSPlug, origin: ~r/.*/
+    plug :accepts, ["json"]
   end
 
   pipeline :static do
-      plug Plug.Static,
-           at: "/apps",
-           from: {:server, "priv/apps"},
-           gzip: false,
-           only: ~w(vue3 vue react angular requests index.html manifest.json service-worker.js css fonts img js favicon.ico robots.txt),
-           only_matching: ["precache-manifest"]
+    plug Plug.Static,
+      at: "/apps",
+      from: {:server, "priv/apps"},
+      gzip: false,
+      only:
+        ~w(vue3 vue react angular requests index.html manifest.json service-worker.js css fonts img js favicon.ico robots.txt),
+      only_matching: ["precache-manifest"]
   end
 
   scope "/", ServerWeb do
@@ -35,26 +41,38 @@ defmodule ServerWeb.Router do
   end
 
   scope "/api", ServerWeb do
+    pipe_through :api
+    get "/fixture/", FixtureController, :index
+    get "/fixture/:key", FixtureController, :show
+    get "/fixture/:key/:index", FixtureController, :show
+    get "/fixture/:key/:prop/:value", FixtureController, :show
+  end
+
+  scope "/user", ServerWeb do
       pipe_through :api
-      get "/fixture/", FixtureController, :index
-      get "/fixture/:key", FixtureController, :show
-      get "/fixture/:key/:index", FixtureController, :show
-      get "/fixture/:key/:prop/:value", FixtureController, :show
+      post "/register", UserController, :register
+      post "/login", UserController, :login
+      get "/login", UserController, :login
+  end
+
+  scope "/order", ServerWeb do
+      pipe_through [:api, :with_session]
+      get "/register", UserController, :user
   end
 
   scope "/123123123123123/wt", ServerWeb do
-      pipe_through :image
-      get "/", TrackServerController, :index
+    pipe_through :image
+    get "/", TrackServerController, :index
   end
 
   scope "/requests", ServerWeb do
-      pipe_through :api
-      get "/json/", RequestLoggerController, :index
+    pipe_through :api
+    get "/json/", RequestLoggerController, :index
   end
 
   scope "/apps", ServerWeb do
-      pipe_through :static
-      get "/:app/*path", AppController, :index
+    pipe_through :static
+    get "/:app/*path", AppController, :index
   end
 
   # Other scopes may use custom stacks.

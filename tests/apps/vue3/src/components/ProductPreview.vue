@@ -1,6 +1,10 @@
 <template>
-    <div class="productlist">
-        <p>TEST: {{ JSON.stringify(products)}}</p>
+    <div class="card">
+        <img :src="product.imageUrl" :alt="product.name + 'title'" style="width:100%">
+        <h1>{{ product.name }}</h1>
+        <p class="price">${{product.price}}</p>
+        <p>{{product.description}}</p>
+        <p><button>Add to Cart</button></p>
     </div>
 </template>
 
@@ -17,8 +21,3 @@ export default defineComponent({
     }
 });
 </script>
-
-
-<style>
-
-</style>
