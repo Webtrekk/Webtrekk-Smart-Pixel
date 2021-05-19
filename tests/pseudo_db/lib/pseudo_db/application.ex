@@ -10,14 +10,18 @@ defmodule PseudoDb.Application do
     children = [
       # Starts a worker by calling: PseudoDb.Worker.start_link(arg)
       # {PseudoDb.Worker, arg}
-        %{
-            id: PseudoDb.User,
-            start: {PseudoDb.User, :start_link, []}
-        },
-        %{
-            id: PseudoDb.Order,
-            start: {PseudoDb.Order, :start_link, []}
-        },
+      %{
+        id: PseudoDb.User,
+        start: {PseudoDb.User, :start_link, []}
+      },
+      %{
+        id: PseudoDb.Order,
+        start: {PseudoDb.Order, :start_link, []}
+      },
+      %{
+        id: PseudoDb.Cart,
+        start: {PseudoDb.Cart, :start_link, []}
+      }
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

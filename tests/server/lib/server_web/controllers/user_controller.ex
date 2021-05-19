@@ -22,4 +22,9 @@ defmodule ServerWeb.UserController do
         json(conn, %{orderId: PseudoDb.User.addOrder(conn.assigns[:mapp_e2e_token], order )})
     end
 
+    def getUserData(conn, _) do
+        token = fetch_cookies(conn) |> Map.from_struct() |> get_in([:cookies, "mapp_e2e_token"])
+        json(conn, PseudoDb.User.getDataByToken(token))
+    end
+
 end

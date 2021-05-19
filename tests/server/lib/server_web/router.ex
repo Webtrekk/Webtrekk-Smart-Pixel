@@ -55,10 +55,25 @@ defmodule ServerWeb.Router do
       get "/login", UserController, :login
   end
 
+  scope "/user", ServerWeb do
+      pipe_through [:api, :with_session]
+      get "/", UserController, :getUserData
+  end
+
   scope "/order", ServerWeb do
       pipe_through [:api, :with_session]
       get "/new", UserController, :add_order
       post "/new", UserController, :add_order
+  end
+
+  scope "/cart", ServerWeb do
+      pipe_through [:api]
+      get "/", CartController, :getCart
+      get "/add", CartController, :addToCart
+      post "/", CartController, :addToCart
+      post "/add", CartController, :addToCart
+      delete "/delete/", CartController, :delete
+      get "/delete/", CartController, :delete
   end
 
   scope "/123123123123123/wt", ServerWeb do
