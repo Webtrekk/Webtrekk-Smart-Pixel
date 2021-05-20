@@ -19,12 +19,26 @@ defmodule ServerWeb.UserController do
     def verifyLogin(%{conn: conn, credentials: credentials}), do: json(conn, credentials)
 
     def add_order(conn, order) do
-        json(conn, %{orderId: PseudoDb.User.addOrder(conn.assigns[:mapp_e2e_token], order )})
+        json(conn, PseudoDb.User.addOrder(conn.assigns[:mapp_e2e_token], order ))
     end
 
     def getUserData(conn, _) do
         token = fetch_cookies(conn) |> Map.from_struct() |> get_in([:cookies, "mapp_e2e_token"])
         json(conn, PseudoDb.User.getDataByToken(token))
+    end
+
+    def logout(conn, _) do
+        conn |> delete_resp_cookie("mapp_e2e_token") |> json(%{message: "logged out"})
+    end
+
+    def orderCart(conn, _) do
+        cart = fetch_cookies(conn) |> Map.from_struct() |> get_in([:cookies, "mapp_e2e_cart"])
+        cartContent = PseudoDb.Cart.getCart(cart)
+        orderContent = %{"products" => cartContent }
+
+        response = PseudoDb.User.addOrder(conn.assigns[:mapp_e2e_token], orderContent )
+        PseudoDb.Cart.emptyCart(cart)
+        json(conn, response)
     end
 
 end

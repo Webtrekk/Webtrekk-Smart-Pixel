@@ -123,10 +123,10 @@ defmodule PseudoDb.User do
   end
 
   def addOrder(token, order) do
-    newOrderId = PseudoDb.Order.addOrder(order)
+    orderData = %{orderId: newOrderId} = PseudoDb.Order.addOrder(order)
     orderIds = [newOrderId] ++ getDataByToken(token, "orders")
     updateByToken(token, "orders", orderIds)
-    newOrderId
+    orderData
   end
 
 end

@@ -69,6 +69,22 @@ defmodule ServerWeb.CartController do
         end
     end
 
+    def id(conn, %{"id" => id}) do
+        conn = conn |> put_resp_cookie("mapp_e2e_cart", id, max_age: 6 * 7 * 24 * 60 * 60 )
+        getCartFromDb(conn, id) |> renderCart()
+    end
+
+    def id(conn, _params) do
+        case fetch_cookies(conn) |> Map.from_struct() |> get_in([:cookies, "mapp_e2e_cart"]) do
+            nil ->
+                json(conn, "")
+            key ->
+                json(conn, key)
+        end
+    end
+
+
+
 
 
 end

@@ -32,14 +32,14 @@ defmodule PseudoDb.Order do
       fn orders -> orders ++ [order] end
     )
 
-    Agent.get(@me, &(length(&1) - 1))
+    %{orderId: Agent.get(@me, &(length(&1) - 1)), data: order}
   end
 
   def getOrdersByIds(ids) do
     Agent.get(@me, fn orders ->
       Enum.with_index(orders)
-      |> Enum.map(fn {data, index} -> Map.put(data, "id", index) end)
-      |> Enum.filter(fn order -> order["id"] in ids end)
+      |> Enum.map(fn {data, index} -> Map.put(data, "orderId", index) end)
+      |> Enum.filter(fn order -> order["orderId"] in ids end)
     end)
   end
 end

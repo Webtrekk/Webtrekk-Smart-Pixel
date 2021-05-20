@@ -13,13 +13,32 @@ defmodule PseudoDb.Cart do
   end
 
   def getCartItems(key) do
-    Agent.get(@me, & &1[key])
+    Agent.get(@me, fn allCarts ->
+        for cartItem <- allCarts[key], do: calculatePrices(cartItem)
+    end)
   end
 
+  defp calculatePrices(cartEntry = %{"price" => price}) when is_number(price) do
+      Map.put(cartEntry, "price", Float.round(price * cartEntry["quantity"], 2))
+  end
+  defp calculatePrices(cartEntry = %{"price" => price}) when is_binary(price) do
+      case Float.parse(price) do
+          :error -> calculatePrices(Map.delete(cartEntry, "price"))
+          {calculatedPrice, _rest} -> calculatePrices(Map.put(cartEntry, "price", calculatedPrice))
+      end
+  end
+  defp calculatePrices(cartEntry), do: cartEntry
+
   def newCart() do
-    key = :crypto.strong_rand_bytes(30) |> Base.url_encode64()
-    Agent.update(@me, fn data -> Map.put(data, key, []) end)
-    key
+    Agent.get_and_update(@me, fn data ->
+        key = :crypto.strong_rand_bytes(30) |> Base.url_encode64()
+        {key, Map.put(data, key, [])}
+    end)
+  end
+  def newCart(key) do
+      Agent.get_and_update(@me, fn data ->
+          {key, Map.put(data, key, [])}
+      end)
   end
 
   def getCart(), do: newCart()
@@ -27,9 +46,7 @@ defmodule PseudoDb.Cart do
   def getCart(key) do
     case checkIfCartExists(key) do
       true -> getCartItems(key)
-      false ->
-        Agent.update(@me, fn carts -> Map.put(carts, key, []) end)
-        getCart(key)
+      false -> newCart(key) |> getCart()
     end
   end
 

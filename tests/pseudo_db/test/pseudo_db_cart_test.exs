@@ -152,4 +152,43 @@ defmodule PseudoDbCartTest do
                  %{"id" => "a", "quantity" => 77}
              ]
   end
+
+  test "calculate prices" do
+      cartKey = Cart.newCart()
+      assert Cart.updateCart(cartKey, %{"id" => "pricetest", "quantity" => "22", "price" => "12.9"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "pricetest2", "quantity" => "11", "price" => "25"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "pricetest3", "quantity" => "19" }) == :ok
+      cartContent = Cart.getCart(cartKey)
+      assert cartContent == [
+                 %{"id" => "pricetest3", "quantity" => 19},
+                 %{"id" => "pricetest2", "quantity" => 11, "price" => 275.0},
+                 %{"id" => "pricetest", "quantity" => 22, "price" => 283.8},
+             ]
+  end
+
+  test "delete wrong price values" do
+      cartKey = Cart.newCart()
+      assert Cart.updateCart(cartKey, %{"id" => "pricetest", "quantity" => "22", "price" => "abc"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "pricetest2", "quantity" => "11", "price" => "def"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "pricetest3", "quantity" => "19" }) == :ok
+      cartContent = Cart.getCart(cartKey)
+      assert cartContent == [
+                 %{"id" => "pricetest3", "quantity" => 19},
+                 %{"id" => "pricetest2", "quantity" => 11},
+                 %{"id" => "pricetest", "quantity" => 22}
+             ]
+  end
+  test "round floats" do
+      cartKey = Cart.newCart()
+      assert Cart.updateCart(cartKey, %{"id" => "pricetest", "quantity" => "22", "price" => 17.776577}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "pricetest2", "quantity" => "11", "price" => 12.5477}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "pricetest3", "quantity" => "19" }) == :ok
+      cartContent = Cart.getCart(cartKey)
+      assert cartContent == [
+                 %{"id" => "pricetest3", "quantity" => 19},
+                 %{"id" => "pricetest2", "quantity" => 11, "price" => 138.02},
+                 %{"id" => "pricetest", "quantity" => 22, "price" => 391.08}
+             ]
+  end
+
 end
