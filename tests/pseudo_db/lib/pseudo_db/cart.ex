@@ -13,13 +13,14 @@ defmodule PseudoDb.Cart do
   end
 
   def getCartItems(key) do
-    Agent.get(@me, fn allCarts ->
-        for cartItem <- allCarts[key], do: calculatePrices(cartItem)
-    end)
+    Agent.get(@me, fn allCarts -> allCarts[key] end)
   end
 
-  defp calculatePrices(cartEntry = %{"price" => price}) when is_number(price) do
-      Map.put(cartEntry, "price", Float.round(price * cartEntry["quantity"], 2))
+  defp calculatePrices(cartEntry = %{"price" => price}) when is_float(price) do
+      Map.put(cartEntry, "sum", Float.round(price * cartEntry["quantity"], 2))
+  end
+  defp calculatePrices(cartEntry = %{"price" => price}) when is_integer(price) do
+      calculatePrices(Map.put(cartEntry, "price", price / 1))
   end
   defp calculatePrices(cartEntry = %{"price" => price}) when is_binary(price) do
       case Float.parse(price) do
@@ -74,20 +75,21 @@ defmodule PseudoDb.Cart do
   def updateCartItem(key, data, _updateExistingEntry = true) do
     existingCartItems = getCart(key)
     existingItem = Enum.find(existingCartItems, &(&1["id"] == data["id"]))
-
     newItems =
       put_in(
         existingCartItems,
         [Access.filter(&(&1["id"] == data["id"])), Access.key("quantity")],
         data["quantity"] + existingItem["quantity"]
       )
-
+    newItems = for cartItem <- newItems, do: calculatePrices(cartItem)
     Agent.update(@me, &Map.put(&1, key, newItems))
     :ok
   end
 
   def updateCartItem(key, data, _updateExistingEntry = false) do
-    Agent.update(@me, fn carts -> Map.put(carts, key, [data | carts[key]]) end)
+    Agent.update(@me, fn carts ->
+        Map.put(carts, key, [calculatePrices(data) | carts[key]])
+    end)
   end
 
   def emptyCart(key) do
@@ -124,7 +126,7 @@ defmodule PseudoDb.Cart do
               [Access.filter(&(&1["id"] == id)), Access.key("quantity")],
               existingItem["quantity"] - amount
             )
-
+          newItems = for cartItem <- newItems, do: calculatePrices(cartItem)
           Agent.update(@me, &Map.put(&1, key, newItems))
           :ok
         end

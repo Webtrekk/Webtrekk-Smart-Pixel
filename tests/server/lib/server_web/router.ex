@@ -10,7 +10,7 @@ defmodule ServerWeb.Router do
   end
 
   pipeline :image do
-    plug CORSPlug, origin: ~r/.*/
+    plug CORSPlug, origin: "*"
   end
 
   pipeline :with_session do
@@ -71,12 +71,15 @@ defmodule ServerWeb.Router do
   scope "/cart", ServerWeb do
       pipe_through [:api]
       get "/", CartController, :getCart
+      options "/", CartController, :getCart
       get "/add", CartController, :addToCart
-      post "/", CartController, :addToCart
       post "/add", CartController, :addToCart
-      delete "/delete/", CartController, :delete
-      get "/delete/", CartController, :delete
-      get "/id/", CartController, :id
+      options "/add", CartController, :addToCart
+      post "/delete", CartController, :delete
+      options "/delete", CartController, :delete
+      get "/delete", CartController, :delete
+      get "/id", CartController, :id
+      options "/id", CartController, :id
   end
 
   scope "/cart", ServerWeb do

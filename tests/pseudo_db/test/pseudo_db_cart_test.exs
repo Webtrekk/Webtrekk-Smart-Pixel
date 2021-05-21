@@ -161,8 +161,8 @@ defmodule PseudoDbCartTest do
       cartContent = Cart.getCart(cartKey)
       assert cartContent == [
                  %{"id" => "pricetest3", "quantity" => 19},
-                 %{"id" => "pricetest2", "quantity" => 11, "price" => 275.0},
-                 %{"id" => "pricetest", "quantity" => 22, "price" => 283.8},
+                 %{"id" => "pricetest2", "quantity" => 11, "sum" => 275.0, "price" => 25},
+                 %{"id" => "pricetest", "quantity" => 22, "sum" => 283.8, "price" => 12.9},
              ]
   end
 
@@ -186,9 +186,44 @@ defmodule PseudoDbCartTest do
       cartContent = Cart.getCart(cartKey)
       assert cartContent == [
                  %{"id" => "pricetest3", "quantity" => 19},
-                 %{"id" => "pricetest2", "quantity" => 11, "price" => 138.02},
-                 %{"id" => "pricetest", "quantity" => 22, "price" => 391.08}
+                 %{"id" => "pricetest2", "quantity" => 11, "price" => 12.5477, "sum" => 138.02},
+                 %{"id" => "pricetest", "quantity" => 22, "price" => 17.776577, "sum" => 391.08}
              ]
+  end
+
+  test "float calculation after adding the same item x times" do
+      cartKey = Cart.newCart()
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+      cartContent = Cart.getCart(cartKey)
+      assert cartContent == [%{"id" => "2", "quantity" => 8, "price" => 22.1, "sum" => 176.8}]
+  end
+
+  test "have sum for 1st add" do
+      cartKey = Cart.newCart()
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "3", "price" => "22.1"}) == :ok
+
+      cartContent = Cart.getCart(cartKey)
+      assert cartContent == [%{"id" => "3", "price" => 22.1, "sum" => 22.1, "quantity" => 1}, %{"id" => "2", "quantity" => 1, "price" => 22.1, "sum" => 22.1}]
+  end
+
+  test "calculate sum after removing an item" do
+      cartKey = Cart.newCart()
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+      assert Cart.updateCart(cartKey, %{"id" => "2", "price" => "22.1"}) == :ok
+
+      cartContent = Cart.getCart(cartKey)
+      assert cartContent == [ %{"id" => "2", "quantity" => 2, "price" => 22.1, "sum" => 44.2}]
+      assert Cart.removeItemFromCart(cartKey, "2", "1") == :ok
+      cartContent = Cart.getCart(cartKey)
+      assert cartContent == [ %{"id" => "2", "quantity" => 1, "price" => 22.1, "sum" => 22.1}]
   end
 
 end

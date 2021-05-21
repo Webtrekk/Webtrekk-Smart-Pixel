@@ -36,7 +36,7 @@ defmodule ServerWeb.Authenticator do
   end
 
   defp setCookie(conn, token) do
-      conn = conn |> put_resp_cookie("mapp_e2e_token", token)
+      conn = conn |> put_resp_cookie("mapp_e2e_token", token, [same_site: "None", secure: true] )
       %{conn: conn, credentials: %{token: token}}
   end
 end

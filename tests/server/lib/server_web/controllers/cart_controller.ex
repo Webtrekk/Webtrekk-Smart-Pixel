@@ -14,7 +14,7 @@ defmodule ServerWeb.CartController do
 
     def createNewCart(conn) do
         key = Cart.newCart()
-        conn = conn |> put_resp_cookie("mapp_e2e_cart", key, max_age: 6 * 7 * 24 * 60 * 60 )
+        conn = setCookie(conn, key)
         %{conn: conn, data: []}
     end
 
@@ -43,7 +43,7 @@ defmodule ServerWeb.CartController do
 
     def updateNewCart(conn, data) do
         key = Cart.newCart()
-        conn = conn |> put_resp_cookie("mapp_e2e_cart", key, max_age: 6 * 7 * 24 * 60 * 60 )
+        conn = setCookie(conn, key)
         updateExistingCart(conn, key, data)
     end
 
@@ -70,7 +70,7 @@ defmodule ServerWeb.CartController do
     end
 
     def id(conn, %{"id" => id}) do
-        conn = conn |> put_resp_cookie("mapp_e2e_cart", id, max_age: 6 * 7 * 24 * 60 * 60 )
+        conn = setCookie(conn, id)
         getCartFromDb(conn, id) |> renderCart()
     end
 
@@ -83,8 +83,8 @@ defmodule ServerWeb.CartController do
         end
     end
 
-
-
-
+    defp setCookie(conn, key) do
+        conn |> put_resp_cookie("mapp_e2e_cart", key, [max_age: 6 * 7 * 24 * 60 * 60, same_site: "None", secure: true]  )
+    end
 
 end
