@@ -52,20 +52,25 @@ defmodule ServerWeb.Router do
       pipe_through :api
       post "/register", UserController, :register
       get "/register", UserController, :register
+      options "/register", UserController, :register
       post "/login", UserController, :login
       get "/login", UserController, :login
+      options "/login", UserController, :login
   end
 
   scope "/user", ServerWeb do
       pipe_through [:api, :with_session]
       get "/", UserController, :getUserData
+      options "/", UserController, :getUserData
       get "/logout", UserController, :logout
+      options "/logout", UserController, :logout
   end
 
   scope "/order", ServerWeb do
       pipe_through [:api, :with_session]
       get "/new", UserController, :add_order
       post "/new", UserController, :add_order
+      options "/new", UserController, :add_order
   end
 
   scope "/cart", ServerWeb do
@@ -85,6 +90,7 @@ defmodule ServerWeb.Router do
   scope "/cart", ServerWeb do
       pipe_through [:api, :with_session]
       get "/order", UserController, :orderCart
+      options "/order", UserController, :orderCart
   end
 
   scope "/123123123123123/wt", ServerWeb do

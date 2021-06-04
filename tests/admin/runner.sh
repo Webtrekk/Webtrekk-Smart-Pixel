@@ -55,7 +55,7 @@ function iex_in_docker {
 
 function prepare_coverage {
     log "Create symbolic link from Vue Plugin src to E2E vue app..."
-    ln -s -f $PACKAGEPATH/vue/src/ $APPSPATH/vue3/plugin/src
+    ln -s -f $PACKAGEPATH/vue/ $APPSPATH/vue3/plugin/
 }
 
 

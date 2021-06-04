@@ -6,6 +6,6 @@ defmodule ServerWeb.PageController do
   end
 
   def requests(conn, _params) do
-    render(conn, "requests.html", %{js: js, css: css} = RequestLogger.getApp())
+    render(conn, "requests.html", RequestLogger.getApp())
   end
 end

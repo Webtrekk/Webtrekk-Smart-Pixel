@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { nextTick } from "vue";
 import ProductList from "@/components/ProductList.vue";
 import { getFixtureData } from "@/helpers/fixture";
 
@@ -22,12 +23,15 @@ export default defineComponent({
     components: {
         ProductList
     },
-    beforeCreate() {
-        getFixtureData("pages/slug/shop").then((data) => {
+    mounted() {
+        getFixtureData("pages/slug/shop").then(data => {
             this.content = data[0];
         });
-        getFixtureData("products").then((data) => {
+        getFixtureData("products").then(data => {
             this.products = data;
+            nextTick(() => {
+                this.$webtrekk.extension("action", "reload");
+            });
         });
     }
 });

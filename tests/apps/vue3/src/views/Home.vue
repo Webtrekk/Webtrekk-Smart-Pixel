@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div>
         <h2>{{ content.title }}</h2>
         <p v-html="content.content"></p>
     </div>
@@ -13,7 +13,14 @@ export default defineComponent({
     name: "Home",
     data() {
         return {
-            content: {}
+            content: {},
+            webtrekk: {
+                page: {
+                    parameter: {
+                        1: 'Homepage'
+                    }
+                }
+            }
         };
     },
     beforeCreate() {

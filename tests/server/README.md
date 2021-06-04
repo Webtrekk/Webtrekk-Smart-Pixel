@@ -5,6 +5,9 @@ This Phoenix server has the following features / routes to help with E2E tests:
 - `/123123123123123/wt` endpoint as Trackserver replacement
 - `/api/fixture` to get fixture data from Cypress fixture directory
 - `/apps/[appname]` to host pre-built Vue, React and Angular apps
+- `/cart` pseudo cart service
+- `/user` pseudo user registration and login service
+- `/order` pseudo order service
 
 The app-builds have to be saved to directory `priv/apps/[appname]`.
 

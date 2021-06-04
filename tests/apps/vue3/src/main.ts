@@ -4,8 +4,15 @@ import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
 // import WebtrekkSmartpixelVue from "../../../../packages/vue/src/index";
-import WebtrekkSmartpixelVue from "../plugin/src/index";
+// import WebtrekkSmartpixelVue from "../plugin/src/index";
+import WebtrekkSmartpixelVue from "../plugin/vue";
 import "../../styles.css";
+
+declare module "@vue/runtime-core" {
+    interface ComponentCustomProperties {
+        $webtrekk: WebtrekkSmartpixelVue;
+    }
+}
 
 const webtrekkConfig = {
     trackId: "123123123123123",

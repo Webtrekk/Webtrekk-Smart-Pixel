@@ -1,9 +1,13 @@
 /*Navbar*/
-header {
+.sticky {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 1;
+}
+
+.content {
+    margin-top: 70px;
 }
 
 nav>ul {
@@ -30,13 +34,20 @@ nav>ul>li>a:hover:not(.active) {
     background-color: #111;
 }
 
-.header-link {
-    color: inherit; /* blue colors for links too */
-    text-decoration: inherit; /* no underline */
-}
-
 .header.right {
     float:right
+}
+
+.logout {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.logout:hover {
+    background-color: #111;
 }
 
 .header.cart.wrapper {
@@ -44,7 +55,6 @@ nav>ul>li>a:hover:not(.active) {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
 }
 
 .header.cart.icon {
@@ -62,31 +72,53 @@ nav>ul>li>a:hover:not(.active) {
 }
 
 /*cart modal*/
-/* The Modal (background) */
 .modal {
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.7);
 }
 
-/* Modal Content/Box */
+.modal-body {padding: 2px 16px;}
+
+.modal-header {
+    padding: 2px 16px;
+    background-color: #5cb85c;
+    color: white;
+}
+
 .modal-content {
+    position: relative;
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
+    margin: 30px auto;
+    padding: 0;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
 }
 
-/* The Close Button */
+.modal-footer {
+    text-align: right;
+    padding: 30px 2rem;
+    background-color: white;
+}
+.modal-footer p {
+    font-weight: 700;
+}
+
 .close {
-    color: #aaa;
+    color: #fff;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -99,51 +131,15 @@ nav>ul>li>a:hover:not(.active) {
     cursor: pointer;
 }
 
-/* Modal Header */
-.modal-header {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-}
-
-/* Modal Body */
-.modal-body {padding: 2px 16px;}
-
-/* Modal Footer */
-.modal-footer {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-}
-
-/* Modal Content */
-.modal-content {
-    position: relative;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #888;
-    width: 80%;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
-    animation-name: animatetop;
-    animation-duration: 0.4s
-}
-
-/* Add Animation */
-@keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
-}
-
 .cartTable {
     font-family: Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
-    table-layout: fixed;
+    table-layout: auto;
 }
 
 .cartTable td, .cartTable th {
-    border: 1px solid #ddd;
+    border: 0;
     padding: 8px;
 }
 
@@ -154,9 +150,7 @@ nav>ul>li>a:hover:not(.active) {
 .cartTable th {
     padding-top: 12px;
     padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
+    text-align: center;
 }
 /*Product card*/
 .card {
@@ -188,4 +182,100 @@ nav>ul>li>a:hover:not(.active) {
 
 .card button:hover {
     opacity: 0.7;
+}
+
+.cart-quantity-button {
+    padding-top: 4px;
+    cursor: pointer;
+}
+
+.cart-quantity-button:hover {
+    opacity: 0.7;
+}
+
+/*Account and registration page*/
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.login-wrapper div {
+    width: 50rem;
+}
+
+.login-wrapper div:nth-of-type(1) {
+border-right: 1px;
+    border-right-color: black;
+    border-right-style: solid;
+}
+
+/*Forms*/
+input[type=text], input[type=password] {
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+input[type=number] {
+    width: 80px;
+    padding: 12px;
+    box-sizing: border-box;
+    margin-right: 10px;
+}
+
+button[type=submit] {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button[type=submit]:hover {
+    background-color: #287129;
+}
+
+/*Snackbar (message when adding to cart etc.)*/
+.snackbar {
+    min-width: 250px;
+    border-radius: 5px;
+    margin-left: -125px;
+    background-color: #219e45; /* Black background color */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+    -webkit-animation: fadein 0.2s, fadeout 0.5s 2.5s;
+    animation: fadein 0.2s, fadeout 0.5s 2.5s;
+}
+
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
 }

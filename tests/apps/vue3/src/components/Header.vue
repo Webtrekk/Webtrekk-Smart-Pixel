@@ -3,11 +3,12 @@
         <nav>
             <ul>
                 <li><router-link to="/">Home</router-link></li>
-                <li><router-link to="Shop">Shop</router-link></li>
-                <li><router-link to="Contact">Contact</router-link></li>
+                <li><router-link to="/shop">Shop</router-link></li>
                 <li class="header right"><Cart /></li>
-                <li class="header right"><Account /></li>
-                <li class="header right"><router-link to="About">About</router-link></li>
+                <AccountMenu />
+                <li class="header right">
+                    <router-link to="/about">About</router-link>
+                </li>
             </ul>
         </nav>
     </header>
@@ -21,13 +22,13 @@ nav a.router-link-exact-active {
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Account from "@/components/Account.vue";
+import AccountMenu from "@/components/AccountMenu.vue";
 import Cart from "@/components/Cart.vue";
 
 export default defineComponent({
     name: "Header",
     components: {
-        Account,
+        AccountMenu,
         Cart
     }
 });

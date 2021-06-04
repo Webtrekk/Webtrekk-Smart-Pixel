@@ -1,10 +1,27 @@
 <template>
     <div class="card">
-        <img :src="product.imageUrl" :alt="product.name + 'title'" style="width:100%">
-        <h1>{{ product.name }}</h1>
-        <p class="price">${{product.price}}</p>
-        <p>{{product.description}}</p>
-        <p><button v-on:click="()=>{this.addToCart({name: product.name, price: product.price, id:product.id, sku: product.sku, img: product.imageUrl})}">Add to Cart</button></p>
+        <router-link :to="'/shop/' + product.id"
+            ><img
+                :src="product.imageUrl"
+                :alt="product.name + 'title'"
+                style="width:100%"
+        /></router-link>
+        <router-link :to="'/shop/' + product.id"
+            ><h1>{{ product.name }}</h1></router-link
+        >
+        <p class="price">${{ product.price }}</p>
+        <p>{{ product.description }}</p>
+        <p>
+            <button
+                v-on:click="
+                    () => {
+                        this.addToCart(product);
+                    }
+                "
+            >
+                Add to Cart
+            </button>
+        </p>
     </div>
 </template>
 
@@ -20,7 +37,7 @@ export default defineComponent({
         }
     },
     methods: {
-        ...mapActions(['addToCart'])
+        ...mapActions(["addToCart"])
     }
 });
 </script>

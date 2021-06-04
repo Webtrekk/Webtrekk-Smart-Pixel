@@ -28,14 +28,15 @@ defmodule ServerWeb.UserController do
     end
 
     def logout(conn, _) do
-        conn |> delete_resp_cookie("mapp_e2e_token") |> json(%{message: "logged out"})
+        conn |> delete_resp_cookie("mapp_e2e_token", same_site: "None") |> json(%{message: "logged out"})
     end
 
-    def orderCart(conn, _) do
+    def orderCart(conn, data) do
         cart = fetch_cookies(conn) |> Map.from_struct() |> get_in([:cookies, "mapp_e2e_cart"])
         cartContent = PseudoDb.Cart.getCart(cart)
-        orderContent = %{"products" => cartContent }
-
+        orderContent = Map.put(data, "products", cartContent)
+        sums = for _cartEntry = %{"sum" => sum} <- cartContent, do: sum
+        orderContent = Map.put(orderContent, "orderValue", Enum.sum(sums))
         response = PseudoDb.User.addOrder(conn.assigns[:mapp_e2e_token], orderContent )
         PseudoDb.Cart.emptyCart(cart)
         json(conn, response)
