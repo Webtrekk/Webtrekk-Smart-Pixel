@@ -8,7 +8,6 @@
 import { defineComponent } from "vue";
 import ProductPreview from "@/components/ProductPreview.vue";
 
-
 export default defineComponent({
     name: "ProductList",
     props: {
@@ -23,7 +22,4 @@ export default defineComponent({
 });
 </script>
 
-
-<style>
-
-</style>
+<style></style>

@@ -1,14 +1,14 @@
 <template>
     <div>
         <h1>Account</h1>
-        <p>Hello {{ userData.firstName}} {{ userData.lastName}}!</p>
-        <p>Your username is: {{userData.name}}</p>
+        <p>Hello {{ userData.firstName }} {{ userData.lastName }}!</p>
+        <p>Your username is: {{ userData.name }}</p>
         <h2>Your orders</h2>
         <hr />
         <div v-for="order in userData.orders" :key="order.id">
-            <h3>Order ID: {{order.orderId}}</h3>
+            <h3>Order ID: {{ order.orderId }}</h3>
             <OrderProductList :products="order.products" />
-            <strong>Order Value: $ {{ order.orderValue}}</strong>
+            <strong>Order Value: $ {{ order.orderValue }}</strong>
             <hr />
         </div>
     </div>
@@ -30,22 +30,18 @@ export default defineComponent({
             webtrekk: {
                 page: {
                     parameter: {
-                        1: 'Account'
+                        1: "Account"
                     }
                 }
             }
         };
     },
     computed: {
-        ...mapGetters([
-            'isLoggedOut',
-            "userData"
-        ])
+        ...mapGetters(["isLoggedOut", "userData"])
     },
     setup() {
         const store = useStore();
         store.dispatch("getUserData");
     }
-
 });
 </script>

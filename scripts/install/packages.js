@@ -110,7 +110,7 @@ module.exports = {
         'next': {
             'vue': 'next', '@vue/compiler-sfc': 'latest',
             '@vue/eslint-config-prettier': 'latest',
-            'vue-router': 'next', 'vuex': 'next'
+            'vue-router': 'next', 'vuex': 'next', '@vue/test-utils': 'next', 'vue-jest' :'next'
         },
         'beta': {'vue': 'beta', 'vue-template-compiler': 'beta'}
     }

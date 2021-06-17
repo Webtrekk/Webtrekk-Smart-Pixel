@@ -17,7 +17,7 @@ export default defineComponent({
             webtrekk: {
                 page: {
                     parameter: {
-                        1: 'Homepage'
+                        1: "Homepage"
                     }
                 }
             }

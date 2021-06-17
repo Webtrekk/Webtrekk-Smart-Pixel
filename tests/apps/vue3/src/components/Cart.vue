@@ -1,5 +1,5 @@
 <template>
-    <div class="header cart wrapper" >
+    <div class="header cart wrapper">
         <svg
             v-on:click="openCart"
             class="header cart icon"
@@ -13,9 +13,10 @@
                 d="M10 19.5c0 .829-.672 1.5-1.5 1.5s-1.5-.671-1.5-1.5c0-.828.672-1.5 1.5-1.5s1.5.672 1.5 1.5zm3.5-1.5c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5c0-.828-.672-1.5-1.5-1.5zm1.336-5l1.977-7h-16.813l2.938 7h11.898zm4.969-10l-3.432 12h-12.597l.839 2h13.239l3.474-12h1.929l.743-2h-4.195z"
             />
         </svg>
-        <div v-on:click="openCart" class="header cart text">( {{cartAmount}} )</div>
+        <div v-on:click="openCart" class="header cart text">
+            ( {{ cartAmount }} )
+        </div>
         <CartMenu />
-
     </div>
 </template>
 
@@ -23,28 +24,19 @@
 import { defineComponent } from "vue";
 import CartMenu from "./CartMenu.vue";
 import { mapGetters, mapActions } from "vuex";
-import {getFixtureData} from "@/helpers/fixture";
 export default defineComponent({
     name: "Cart",
     data() {
-        return {
-        };
+        return {};
     },
     computed: {
-        ...mapGetters([
-            'cartAmount',
-            'cartIsOpen'
-        ])
+        ...mapGetters(["cartAmount", "cartIsOpen"])
     },
     components: {
         CartMenu
     },
     methods: {
-        ...mapActions([
-            'openCart',
-            'closeCart',
-            'getCart'
-        ])
+        ...mapActions(["openCart", "closeCart", "getCart"])
     },
     mounted() {
         this.getCart();

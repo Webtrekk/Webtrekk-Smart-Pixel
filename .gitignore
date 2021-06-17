@@ -48,6 +48,7 @@ packages/*/dist/*
 !tests/request_logger/
 !tests/apps/
 !tests/admin/
+!tests/pseudo_db/
 !tests/Makefile
 !tests/README.md
 tests/E2E/coverage

@@ -34,8 +34,21 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getFixtureData } from "@/helpers/fixture";
+import WebtrekkSmartPixelVue from "./../../plugin/vue/src/lib/WebtrekkSmartPixelVue";
+import App from "./../main";
 
 import { mapGetters, mapActions } from "vuex";
+
+interface ProductDataWrapper {
+    value: ProductData[];
+}
+interface ProductData {
+    name: string;
+    price: number;
+    description: string;
+    sku: string;
+    id: number;
+}
 
 export default defineComponent({
     name: "Product",
@@ -59,11 +72,18 @@ export default defineComponent({
         ...mapActions(["addToCart"])
     },
     setup() {
+        App.$webtrekk.deactivateAutoTracking = true;
         const route = useRoute();
         const productId = route.params.id;
-        const product = ref([]);
+        const product: ProductDataWrapper = ref([]);
         const getProduct = async () => {
             product.value = await getFixtureData(`products/id/${productId}`);
+            App.$webtrekk.product("view", {
+                id: product.value[0].id + "",
+                cost: product.value[0].price,
+                quantity: 1
+            });
+            WebtrekkSmartPixelVue.track();
         };
         onMounted(getProduct);
         return {

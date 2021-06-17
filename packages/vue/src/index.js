@@ -5,7 +5,7 @@ import {mappBeforeResolve, autoTrack} from './lib/routerHookFunctionsV3';
 
 const webtrekk = {
     install(Vue, webtrekkConfig) {
-        const isVue3 = Vue.hasOwnProperty('config') && Vue.config.hasOwnProperty('globalProperties');
+        const isVue3 = Vue?.hasOwnProperty('config') && Vue.config?.hasOwnProperty('globalProperties');
         if (isVue3) {
             Vue.config.globalProperties.$webtrekk = SmartPixelVue;
             if (webtrekkConfig.activateAutoTracking && webtrekkConfig.activateAutoTracking.beforeResolve) {
@@ -71,5 +71,4 @@ const webtrekk = {
         Vue.directive(WebtrekkDirective.name, WebtrekkDirective);
     }
 };
-
 export default webtrekk;

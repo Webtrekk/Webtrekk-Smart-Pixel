@@ -1,12 +1,52 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@webtrekk-smart-pixel/core')) :
-  typeof define === 'function' && define.amd ? define(['exports', '@webtrekk-smart-pixel/core'], factory) :
-  (global = global || self, factory(global['@webtrekk-smart-pixel/vue'] = {}, global.wtSmart));
-}(this, function (exports, wtSmart) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@webtrekk-smart-pixel/core'), require('vue')) :
+  typeof define === 'function' && define.amd ? define(['exports', '@webtrekk-smart-pixel/core', 'vue'], factory) :
+  (global = global || self, factory(global['@webtrekk-smart-pixel/vue'] = {}, global.wtSmart, global.Vue));
+}(this, (function (exports, wtSmart, vue) { 'use strict';
 
-  wtSmart = wtSmart && wtSmart.hasOwnProperty('default') ? wtSmart['default'] : wtSmart;
+  wtSmart = wtSmart && Object.prototype.hasOwnProperty.call(wtSmart, 'default') ? wtSmart['default'] : wtSmart;
+
+  function ownKeys(object, enumerableOnly) {
+    var keys = Object.keys(object);
+
+    if (Object.getOwnPropertySymbols) {
+      var symbols = Object.getOwnPropertySymbols(object);
+
+      if (enumerableOnly) {
+        symbols = symbols.filter(function (sym) {
+          return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+        });
+      }
+
+      keys.push.apply(keys, symbols);
+    }
+
+    return keys;
+  }
+
+  function _objectSpread2(target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i] != null ? arguments[i] : {};
+
+      if (i % 2) {
+        ownKeys(Object(source), true).forEach(function (key) {
+          _defineProperty(target, key, source[key]);
+        });
+      } else if (Object.getOwnPropertyDescriptors) {
+        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+      } else {
+        ownKeys(Object(source)).forEach(function (key) {
+          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+        });
+      }
+    }
+
+    return target;
+  }
 
   function _typeof(obj) {
+    "@babel/helpers - typeof";
+
     if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
       _typeof = function (obj) {
         return typeof obj;
@@ -18,6 +58,42 @@
     }
 
     return _typeof(obj);
+  }
+
+  function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+    try {
+      var info = gen[key](arg);
+      var value = info.value;
+    } catch (error) {
+      reject(error);
+      return;
+    }
+
+    if (info.done) {
+      resolve(value);
+    } else {
+      Promise.resolve(value).then(_next, _throw);
+    }
+  }
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var self = this,
+          args = arguments;
+      return new Promise(function (resolve, reject) {
+        var gen = fn.apply(self, args);
+
+        function _next(value) {
+          asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+        }
+
+        function _throw(err) {
+          asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+        }
+
+        _next(undefined);
+      });
+    };
   }
 
   function _classCallCheck(instance, Constructor) {
@@ -57,58 +133,37 @@
     return obj;
   }
 
-  function ownKeys(object, enumerableOnly) {
-    var keys = Object.keys(object);
-
-    if (Object.getOwnPropertySymbols) {
-      var symbols = Object.getOwnPropertySymbols(object);
-      if (enumerableOnly) symbols = symbols.filter(function (sym) {
-        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-      });
-      keys.push.apply(keys, symbols);
-    }
-
-    return keys;
-  }
-
-  function _objectSpread2(target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i] != null ? arguments[i] : {};
-
-      if (i % 2) {
-        ownKeys(source, true).forEach(function (key) {
-          _defineProperty(target, key, source[key]);
-        });
-      } else if (Object.getOwnPropertyDescriptors) {
-        Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-      } else {
-        ownKeys(source).forEach(function (key) {
-          Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-        });
-      }
-    }
-
-    return target;
-  }
-
   function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread();
+    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
   }
 
   function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) {
-      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
-
-      return arr2;
-    }
+    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
   }
 
   function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+  }
+
+  function _unsupportedIterableToArray(o, minLen) {
+    if (!o) return;
+    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+    var n = Object.prototype.toString.call(o).slice(8, -1);
+    if (n === "Object" && o.constructor) n = o.constructor.name;
+    if (n === "Map" || n === "Set") return Array.from(o);
+    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+
+  function _arrayLikeToArray(arr, len) {
+    if (len == null || len > arr.length) len = arr.length;
+
+    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+
+    return arr2;
   }
 
   function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance");
+    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
   }
 
   /**
@@ -151,9 +206,7 @@
    */
 
 
-  var WebtrekkSmartPixelVue =
-  /*#__PURE__*/
-  function () {
+  var WebtrekkSmartPixelVue = /*#__PURE__*/function () {
     function WebtrekkSmartPixelVue() {
       _classCallCheck(this, WebtrekkSmartPixelVue);
 
@@ -344,6 +397,7 @@
 
         var keepData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
         // all the setTimeout hacks have to be done because of this issue: https://github.com/vuejs/vue-router/pull/2292, otherwise linkTracking is triggered after autoTracking
+        // Otherwise automatic linkTracking requests come after PI
         setTimeout(function () {
           _this.call(function (pix) {
             pix.track(keepData);
@@ -408,18 +462,6 @@
   /**
    * @param {Object} data
    */
-
-  var pageHandler = function pageHandler(data) {
-    if (typeof data.page === 'string') {
-      SmartPixelVue.page(data.page);
-    } else {
-      SmartPixelVue.page(data.page.name, data.page);
-    }
-  };
-  /**
-   * @param {Object} data
-   */
-
 
   var actionHandler = function actionHandler(data) {
     if (typeof data.action === 'string') {
@@ -488,6 +530,24 @@
       });
     }
   };
+
+  var extensionHelper = function extensionHelper(extension, data, selector) {
+    SmartPixelVue.call(function (wtSmart) {
+      wtSmart.extension[extension].add(_objectSpread2(_objectSpread2({}, data[extension]), {}, {
+        selector: selector
+      }));
+    });
+  };
+
+  var callWhenAvailable = function callWhenAvailable(selector, extension, data) {
+    if (document.querySelector(selector)) {
+      extensionHelper('teaser_tracking', data, selector);
+    } else {
+      setTimeout(function () {
+        callWhenAvailable(selector, extension, data);
+      }, 1000);
+    }
+  };
   /**
    * @param {Object} data
    * @param {HTMLElement} element
@@ -495,12 +555,11 @@
 
 
   var teaserTrackingHandler = function teaserTrackingHandler(data, element) {
-    var selector = data.teaser_tracking.selector ? data.teaser_tracking.selector : element;
-    SmartPixelVue.call(function (wtSmart) {
-      wtSmart.extension.teaser_tracking.add(_objectSpread2({}, data.teaser_tracking, {
-        selector: selector
-      }));
-    });
+    if (data.teaser_tracking.selector) {
+      callWhenAvailable(data.teaser_tracking.selector, 'teaser_tracking', data);
+    } else {
+      extensionHelper('teaser_tracking', data, element);
+    }
   };
   /**
    * @param {Object} data
@@ -511,7 +570,7 @@
   var productListTrackingHandler = function productListTrackingHandler(data, element) {
     var selector = data.product_list_tracking.selector ? data.product_list_tracking.selector : element;
     SmartPixelVue.call(function (wtSmart) {
-      wtSmart.extension.product_list_tracking.add(_objectSpread2({}, data.product_list_tracking, {
+      wtSmart.extension.product_list_tracking.add(_objectSpread2(_objectSpread2({}, data.product_list_tracking), {}, {
         selector: selector
       }));
     });
@@ -525,7 +584,7 @@
   var contentEngagementHandler = function contentEngagementHandler(data, element) {
     var selector = data.content_engagement.selector ? data.content_engagement.selector : element;
     SmartPixelVue.call(function (wtSmart) {
-      wtSmart.extension.content_engagement.add(_objectSpread2({}, data.content_engagement, {
+      wtSmart.extension.content_engagement.add(_objectSpread2(_objectSpread2({}, data.content_engagement), {}, {
         selector: selector
       }));
     });
@@ -533,11 +592,12 @@
   /**
    * @param {Object} data
    * @param {Array} keys
-   * @param {HTMLElement} element
+   * @param {HTMLElement|null} [element]
    */
 
 
-  var generalHandler = function generalHandler(data, keys, element) {
+  var generalHandler = function generalHandler(data, keys) {
+    var element = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
     // setTimeout(() => {
     var productStatusFilter = /^(?:view|basket|list|confirmation)$/;
     var trackFilter = /^(?:track|trackAction|trackPage)$/;
@@ -550,10 +610,6 @@
       switch (key) {
         case 'action':
           actionHandler(data);
-          break;
-
-        case 'page':
-          pageHandler(data);
           break;
 
         case 'customer':
@@ -612,18 +668,13 @@
         case 'trackPage':
           SmartPixelVue.trackPage(shallDataBeKept(key));
           break;
-
-        /* istanbul ignore next */
-
-        default:
-          break;
       }
     }); // }, 0);
   };
 
-  var WebtrekkDirective = {
+  var webtrekkDirective = {
     name: 'webtrekk',
-    inserted: function inserted(element, binding) {
+    mounted: function mounted(element, binding) {
       var dataValue = binding.value;
       var mode = binding.modifiers;
       var keyValues = _typeof(dataValue) === 'object' ? Object.keys(dataValue) : [];
@@ -650,6 +701,7 @@
       }
     }
   };
+  webtrekkDirective.inserted = webtrekkDirective.mounted;
 
   /**
    * @param {Array} root
@@ -714,29 +766,94 @@
     next();
   };
 
+  var autoTrack = function autoTrack(config) {
+    vue.nextTick(function () {
+      if (config.activateLinkTracking) {
+        SmartPixelVue.extension('action', 'reload');
+      }
+
+      if (SmartPixelVue.deactivateAutoTracking) {
+        SmartPixelVue.deactivateAutoTracking = false;
+      } else {
+        SmartPixelVue.track();
+      }
+    });
+  };
+  var mappBeforeResolve = function mappBeforeResolve(to) {
+    SmartPixelVue.clear();
+    var routerComponent = to.matched[0].components["default"];
+    var componentMappData = [];
+    console.log(123, to);
+
+    var getComponentMappDataRecursively = function getComponentMappDataRecursively(component) {
+      if (component.data && component.data().webtrekk) {
+        componentMappData.push(component.data().webtrekk);
+      }
+
+      if (component.hasOwnProperty('components')) {
+        Object.keys(component.components).forEach(function (componentName) {
+          getComponentMappDataRecursively(component.components[componentName]);
+        });
+      }
+    };
+
+    getComponentMappDataRecursively(routerComponent);
+    componentMappData.forEach(function (data) {
+      generalHandler(data, Object.keys(data));
+    });
+  };
+
   var webtrekk = {
     install: function install(Vue, webtrekkConfig) {
-      // mounting Smartpixel to Vue instance so it is available under this.$webtrekk
-      Vue.prototype.$webtrekk = SmartPixelVue; // initialization of global Webtrekk configuration
+      var _Vue$config;
+
+      var isVue3 = (Vue === null || Vue === void 0 ? void 0 : Vue.hasOwnProperty('config')) && ((_Vue$config = Vue.config) === null || _Vue$config === void 0 ? void 0 : _Vue$config.hasOwnProperty('globalProperties'));
+
+      if (isVue3) {
+        Vue.config.globalProperties.$webtrekk = SmartPixelVue;
+
+        if (webtrekkConfig.activateAutoTracking && webtrekkConfig.activateAutoTracking.beforeResolve) {
+          webtrekkConfig.activateAutoTracking.beforeResolve(function (to) {
+            mappBeforeResolve(to);
+          });
+          webtrekkConfig.activateAutoTracking.afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    autoTrack(webtrekkConfig);
+
+                  case 1:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            }, _callee);
+          })));
+        }
+      } else {
+        Vue.prototype.$webtrekk = SmartPixelVue;
+
+        if (webtrekkConfig.activateAutoTracking) {
+          Vue.mixin({
+            beforeRouteEnter: function beforeRouteEnter(to, from, next) {
+              wtBeforeRouteEnter(webtrekkConfig, next);
+            },
+
+            /* istanbul ignore next */
+            beforeRouteLeave: function beforeRouteLeave(to, from, next) {
+              wtBeforeRouteLeave(next);
+            }
+          });
+        }
+      } // initialization of global Webtrekk configuration
+
 
       SmartPixelVue.init(webtrekkConfig);
       SmartPixelVue.advanced(webtrekkConfig); // optional activation of auto linktracking
 
       if (webtrekkConfig.activateLinkTracking) {
         SmartPixelVue.extension('action');
-      }
-
-      if (webtrekkConfig.activateAutoTracking) {
-        Vue.mixin({
-          beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-            wtBeforeRouteEnter(webtrekkConfig, next);
-          },
-
-          /* istanbul ignore next */
-          beforeRouteLeave: function beforeRouteLeave(to, from, next) {
-            wtBeforeRouteLeave(next);
-          }
-        });
       } // optional activation of teaser_tracking
 
 
@@ -770,7 +887,7 @@
       } // init v-webtrekk directive
 
 
-      Vue.directive(WebtrekkDirective.name, WebtrekkDirective);
+      Vue.directive(webtrekkDirective.name, webtrekkDirective);
     }
   };
 
@@ -778,4 +895,4 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-}));
+})));

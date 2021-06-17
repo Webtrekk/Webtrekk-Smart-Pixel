@@ -3,18 +3,12 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
-// import WebtrekkSmartpixelVue from "../../../../packages/vue/src/index";
-// import WebtrekkSmartpixelVue from "../plugin/src/index";
-import WebtrekkSmartpixelVue from "../plugin/vue";
+import WebtrekkSmartpixelVue, {
+    WebtrekkSmartpixelVueOptions
+} from "../plugin/vue";
 import "../../styles.css";
 
-declare module "@vue/runtime-core" {
-    interface ComponentCustomProperties {
-        $webtrekk: WebtrekkSmartpixelVue;
-    }
-}
-
-const webtrekkConfig = {
+const webtrekkConfig: WebtrekkSmartpixelVueOptions = {
     trackId: "123123123123123",
     trackDomain: "localhost:4001",
     activateLinkTracking: true,
@@ -25,7 +19,7 @@ const webtrekkConfig = {
     secureCookie: false
 };
 
-createApp(App)
+export default createApp(App)
     .use(store)
     .use(router)
     .use(WebtrekkSmartpixelVue, webtrekkConfig)

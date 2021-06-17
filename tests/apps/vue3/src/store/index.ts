@@ -1,7 +1,9 @@
-import { createStore } from "vuex";
+import { createStore, Store } from "vuex";
 import { get, post } from "@/helpers/request";
 import Cart from "@/components/Cart.vue";
 import router from "@/router/index";
+import App from "../main";
+import { InjectionKey } from "vue";
 
 interface Cart {
     id: number;
@@ -12,6 +14,22 @@ interface Cart {
     sku: string;
     quantity: number;
 }
+
+export interface State {
+    cart: Cart[];
+    userData: boolean | Userdata;
+    cartIsOpen: boolean;
+    snackbar: false | string;
+}
+export const key: InjectionKey<Store<State>> = Symbol();
+
+type Userdata =
+    | false
+    | {
+          name: string;
+          firstName: string;
+          lastName: string;
+      };
 
 export default createStore({
     state: {
@@ -36,9 +54,13 @@ export default createStore({
     },
     actions: {
         openCart({ commit }) {
+            App.$webtrekk.action({ name: "Open cart" });
+            App.$webtrekk.trackAction();
             commit("SET_CART_MENU", true);
         },
         closeCart({ commit }) {
+            App.$webtrekk.action({ name: "Close cart" });
+            App.$webtrekk.trackAction();
             commit("SET_CART_MENU", false);
         },
         getCart({ commit }) {
@@ -47,6 +69,13 @@ export default createStore({
             });
         },
         addToCart({ commit, dispatch }, data) {
+            const q = data.quantity ? data.quantity : 1;
+            App.$webtrekk.product("basket", {
+                id: data.id + "",
+                cost: data.price * q,
+                quantity: q
+            });
+            App.$webtrekk.trackAction();
             post("cart/add", data).then(data => {
                 commit("SET_CART", data);
                 dispatch("displayMessage", "Product added to cart");
@@ -76,16 +105,23 @@ export default createStore({
             get("user/login/?name=" + name + "&password=" + password).then(
                 r => {
                     if (r?.token) {
+                        App.$webtrekk.customer(name);
+                        App.$webtrekk.action({ name: "Login" });
+                        App.$webtrekk.trackAction();
                         dispatch("getUserData");
                         router.push("account");
                     } else {
-                        dispatch("displayMessage", "Wrong credetials");
+                        App.$webtrekk.action({ name: "Wrong login" });
+                        App.$webtrekk.trackAction();
+                        dispatch("displayMessage", "Wrong credentials");
                     }
                 }
             );
         },
         logout({ dispatch }) {
             get("user/logout").then(() => {
+                App.$webtrekk.action({ name: "Logout" });
+                App.$webtrekk.trackAction();
                 dispatch("displayMessage", "You successfully logged out!");
                 dispatch("getUserData");
                 router.push("login");
@@ -94,14 +130,50 @@ export default createStore({
         register({ dispatch }, data) {
             post("user/register", data).then(r => {
                 if (r?.token) {
+                    App.$webtrekk.customer(data.name);
+                    App.$webtrekk.action({ name: "Register" });
+                    App.$webtrekk.trackAction();
                     dispatch("getUserData");
                     dispatch("displayMessage", "Welcome " + data.firstName);
                     router.push("account");
                 }
             });
         },
-        addOrder({ dispatch }) {
-            get("cart/order").then(() => {
+        addOrder({ dispatch, getters }) {
+            get("cart/order").then(e => {
+                console.log("ORDER: ", e);
+                const orderData = {
+                    value: e.data.orderValue,
+                    id: e.orderId + ""
+                };
+                console.log("S", orderData);
+                App.$webtrekk.customer(getters.userData.name);
+                App.$webtrekk.order(orderData);
+                // App.$webtrekk.page("Thank you");
+                App.$webtrekk.product("confirmation", {
+                    id: "test",
+                    quantity: 1,
+                    cost: 11
+                });
+                // // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                // // @ts-ignore
+                // window.wtSmart.order.data.add(orderData);
+                console.log(
+                    "ORDER IN PIXEL",
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                    // @ts-ignore
+                    JSON.stringify(window.wtSmart.order.data.get()),
+                    "PRODUCT IN PIXEL",
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                    // @ts-ignore
+                    JSON.stringify(window.wtSmart.product.confirmation.data.get())
+                );
+
+                // App.$webtrekk.trackPage();
+                App.$webtrekk.call( pix => {
+                    pix.trackPage();
+                });
+                // App.$webtrekk.deactivateAutoTracking = true;
                 dispatch("closeCart");
                 dispatch("getCart");
                 router.push("/thankyou");
