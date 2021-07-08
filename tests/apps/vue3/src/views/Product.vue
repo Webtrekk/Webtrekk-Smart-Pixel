@@ -34,7 +34,6 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { getFixtureData } from "@/helpers/fixture";
-import WebtrekkSmartPixelVue from "./../../plugin/vue/src/lib/WebtrekkSmartPixelVue";
 import App from "./../main";
 
 import { mapGetters, mapActions } from "vuex";
@@ -83,7 +82,7 @@ export default defineComponent({
                 cost: product.value[0].price,
                 quantity: 1
             });
-            WebtrekkSmartPixelVue.track();
+            App.$webtrekk.track();
         };
         onMounted(getProduct);
         return {

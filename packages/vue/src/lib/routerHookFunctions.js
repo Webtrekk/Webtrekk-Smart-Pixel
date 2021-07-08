@@ -1,6 +1,24 @@
 import SmartPixelVue from './WebtrekkSmartPixelVue';
-import {childObductor} from './helper';
 import {generalHandler} from './handlerFunctions';
+
+/**
+ * @param {Array} root
+ * @returns {Array} Child component instances with webtrekk property
+ */
+const childObductor = (root) => {
+    const flatten = (arr) => arr.reduce((flat, next) => flat.concat(Array.isArray(next) ? flatten(next) : next), []);
+    const allChildren = [];
+    const getChild = el => {
+        if (el.$children.length > 0) {
+            allChildren.push([...el.$children]);
+            el.$children.forEach(newEl => {
+                getChild(newEl);
+            });
+        }
+    };
+    getChild(root);
+    return flatten(allChildren).filter((child) => child.webtrekk);
+};
 
 export const wtBeforeRouteEnter = (webtrekkConfig, next) => {
     next(vm => {
@@ -23,7 +41,13 @@ export const wtBeforeRouteEnter = (webtrekkConfig, next) => {
             }
             else {
                 // Send pagerequest
-                SmartPixelVue.track();
+                // all the setTimeout hacks have to be done because of this issue: https://github.com/vuejs/vue-router/pull/2292, otherwise linkTracking is triggered after autoTracking
+                // Otherwise automatic linkTracking requests come after PI
+                setTimeout(() => {
+                    SmartPixelVue.call(function(pix) {
+                        pix.track();
+                    });
+                }, 0);
             }
         });
     });

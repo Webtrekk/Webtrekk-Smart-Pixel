@@ -4,6 +4,13 @@
             <ul>
                 <li><router-link to="/">Home</router-link></li>
                 <li><router-link to="/shop">Shop</router-link></li>
+                <li><router-link to="/teaser">Teaser</router-link></li>
+                <li>
+                    <router-link to="/content-engagement"
+                        >Content Engagement</router-link
+                    >
+                </li>
+                <li><router-link to="/directive">Directive</router-link></li>
                 <li class="header right"><Cart /></li>
                 <AccountMenu />
                 <li class="header right">

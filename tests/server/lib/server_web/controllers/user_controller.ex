@@ -36,7 +36,11 @@ defmodule ServerWeb.UserController do
         cartContent = PseudoDb.Cart.getCart(cart)
         orderContent = Map.put(data, "products", cartContent)
         sums = for _cartEntry = %{"sum" => sum} <- cartContent, do: sum
-        orderContent = Map.put(orderContent, "orderValue", Enum.sum(sums))
+        orderValue = sums
+                     |> Enum.map(&trunc(&1 * 100))
+                     |> Enum.sum()
+                     |> Kernel./(100)
+        orderContent = Map.put(orderContent, "orderValue", orderValue )
         response = PseudoDb.User.addOrder(conn.assigns[:mapp_e2e_token], orderContent )
         PseudoDb.Cart.emptyCart(cart)
         json(conn, response)

@@ -72,7 +72,7 @@ export default createStore({
             const q = data.quantity ? data.quantity : 1;
             App.$webtrekk.product("basket", {
                 id: data.id + "",
-                cost: data.price * q,
+                cost: parseFloat((data.price * q).toFixed(2)),
                 quantity: q
             });
             App.$webtrekk.trackAction();
@@ -141,39 +141,22 @@ export default createStore({
         },
         addOrder({ dispatch, getters }) {
             get("cart/order").then(e => {
-                console.log("ORDER: ", e);
-                const orderData = {
+                App.$webtrekk.page("Thank you");
+                App.$webtrekk.customer(getters.userData.name);
+                App.$webtrekk.order({
                     value: e.data.orderValue,
                     id: e.orderId + ""
-                };
-                console.log("S", orderData);
-                App.$webtrekk.customer(getters.userData.name);
-                App.$webtrekk.order(orderData);
-                // App.$webtrekk.page("Thank you");
-                App.$webtrekk.product("confirmation", {
-                    id: "test",
-                    quantity: 1,
-                    cost: 11
                 });
-                // // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-                // // @ts-ignore
-                // window.wtSmart.order.data.add(orderData);
-                console.log(
-                    "ORDER IN PIXEL",
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-                    // @ts-ignore
-                    JSON.stringify(window.wtSmart.order.data.get()),
-                    "PRODUCT IN PIXEL",
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-                    // @ts-ignore
-                    JSON.stringify(window.wtSmart.product.confirmation.data.get())
-                );
-
-                // App.$webtrekk.trackPage();
-                App.$webtrekk.call( pix => {
-                    pix.trackPage();
+                e.data.products.forEach(product => {
+                    App.$webtrekk.product("confirmation", {
+                        id: product.id + "",
+                        quantity: product.quantity,
+                        cost: product.sum
+                    });
                 });
-                // App.$webtrekk.deactivateAutoTracking = true;
+                App.$webtrekk.trackPage();
+                App.$webtrekk.page("");
+                App.$webtrekk.deactivateAutoTracking = true;
                 dispatch("closeCart");
                 dispatch("getCart");
                 router.push("/thankyou");

@@ -3,14 +3,13 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import store from "./store";
-import WebtrekkSmartpixelVue, {
-    WebtrekkSmartpixelVueOptions
-} from "../plugin/vue";
+import WebtrekkSmartpixelVue from "../../../instrumented/vue/index";
+import { WebtrekkSmartpixelVueOptions } from "../../../../packages/vue";
 import "../../styles.css";
 
 const webtrekkConfig: WebtrekkSmartpixelVueOptions = {
     trackId: "123123123123123",
-    trackDomain: "localhost:4001",
+    trackDomain: "phoenix:4001",
     activateLinkTracking: true,
     activateAutoTracking: router,
     activateTeaserTracking: true,

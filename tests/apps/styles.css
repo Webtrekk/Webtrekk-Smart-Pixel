@@ -22,7 +22,7 @@ nav>ul>li {
     float: left;
 }
 
-nav>ul>li>a {
+nav>ul>li>a, .headerLink {
     display: block;
     color: white;
     text-align: center;
@@ -278,4 +278,42 @@ button[type=submit]:hover {
 @keyframes fadeout {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
+}
+
+/*Content Engagement*/
+.content-engagement {
+    padding-top: 30px;
+    white-space: pre-wrap;
+    margin: auto;
+    width: 700px;
+}
+
+/*Teaser Tracking*/
+.teaser {
+    background-color: #00ff3b;
+}
+.teaser-bottom {
+    margin-top: 1000px;
+}
+
+/* Button class */
+
+.button{
+    background-color: #84b0ff;
+    display:inline-block;
+    padding:0.35em 1.2em;
+    border:0.1em solid #2b6bc9;
+    margin:0 0.3em 0.3em 0;
+    border-radius:0.12em;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-weight:300;
+    color: #000000;
+    text-align:center;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+.button:hover{
+    color:#000000;
+    background-color:#FFFFFF;
 }

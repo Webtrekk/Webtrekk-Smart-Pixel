@@ -1,4 +1,9 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import {
+    createRouter,
+    createWebHistory,
+    Router,
+    RouteRecordRaw
+} from "vue-router";
 import Home from "../views/Home.vue";
 
 const routes: Array<RouteRecordRaw> = [
@@ -38,6 +43,26 @@ const routes: Array<RouteRecordRaw> = [
             import(/* webpackChunkName: "thanks" */ "../views/ThankYou.vue")
     },
     {
+        path: "/teaser",
+        name: "Teaser",
+        component: () =>
+            import(/* webpackChunkName: "teaser" */ "../views/Teaser.vue")
+    },
+    {
+        path: "/content-engagement",
+        name: "ContentEngagement",
+        component: () =>
+            import(
+                /* webpackChunkName: "content_eng" */ "../views/ContentEngagement.vue"
+            )
+    },
+    {
+        path: "/directive",
+        name: "Directive",
+        component: () =>
+            import(/* webpackChunkName: "directive" */ "../views/Directive.vue")
+    },
+    {
         path: "/shop/:id",
         name: "SingleProduct",
         component: () =>
@@ -47,7 +72,7 @@ const routes: Array<RouteRecordRaw> = [
     }
 ];
 
-const router = createRouter({
+const router: Router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 });

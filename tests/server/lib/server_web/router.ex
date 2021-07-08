@@ -29,7 +29,7 @@ defmodule ServerWeb.Router do
       from: {:server, "priv/apps"},
       gzip: false,
       only:
-        ~w(vue3 vue react angular requests index.html manifest.json service-worker.js css fonts img js favicon.ico robots.txt),
+        ~w(vue3 vue2 react angular requests index.html manifest.json service-worker.js css fonts img js favicon.ico robots.txt),
       only_matching: ["precache-manifest"]
   end
 

@@ -9,9 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cypress": "^6.0.1"
+    "cypress": "^7.6.0"
   },
   "devDependencies": {
-    "@cypress/code-coverage": "^3.9.5"
+    "@cypress/code-coverage": "^3.9.7"
   }
 }

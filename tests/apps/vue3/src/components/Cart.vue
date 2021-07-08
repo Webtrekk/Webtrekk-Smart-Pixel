@@ -1,6 +1,7 @@
 <template>
     <div class="header cart wrapper">
         <svg
+            id="openCart"
             v-on:click="openCart"
             class="header cart icon"
             xmlns="http://www.w3.org/2000/svg"

@@ -3,7 +3,7 @@
         <div>
             <h2>Register</h2>
             <p>Register if you are a new user.</p>
-            <form>
+            <form id="register">
                 <p>
                     First name:
                     <input
@@ -50,7 +50,7 @@
         <div>
             <h2>Login</h2>
             <p>Login with your existing credentials.</p>
-            <form>
+            <form id="login">
                 <p>
                     Name:
                     <input name="name" v-model="loginName" type="text" />

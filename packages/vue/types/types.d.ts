@@ -1,16 +1,5 @@
 import WebtrekkSmartpixelVue from "../src/index";
 import * as wtSmart from "./../../core";
-import { Router } from "vue-router";
-import { App as _APP } from "vue";
-
-// import { App, Plugin } from "vue";
-
-// declare interface App<HostElement = any> {
-//     use(
-//         plugin: WebtrekkSmartpixelVue,
-//         options: WebtrekkSmartpixelVueOptions
-//     ): this;
-// }
 
 declare interface DataObject {
     [i: number]: string;
@@ -225,12 +214,6 @@ declare interface WebtrekkContentEngagementProps {
     smallBrowserSeconds: number;
 }
 
-declare interface WebtrekkExtensionProps {
-    name: string;
-    action: string;
-    config?: any;
-}
-
 interface Webtrekk {
     deactivateAutoTracking: boolean;
     call: (call: (wtSmart: wtSmart) => void) => void;
@@ -265,6 +248,11 @@ interface Webtrekk {
     clear: () => void;
 }
 
+interface Router {
+    beforeResolve: (to: any) => void;
+    afterEach: (guard: any) => void;
+}
+
 export type WebtrekkSmartpixelVueOptions = WebtrekkInitProps &
     WebtrekkAdvancedProps & {
         activateLinkTracking?: boolean;
@@ -274,16 +262,9 @@ export type WebtrekkSmartpixelVueOptions = WebtrekkInitProps &
         activateContentEngagement?: boolean | WebtrekkContentEngagementConfig;
     };
 
-type Bla = {
-    foo: string;
-};
-
 declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
         $webtrekk: Webtrekk;
-    }
-    interface App {
-        use(plugin: Bla, ...options: WebtrekkSmartpixelVueOptions[]): this;
     }
 }
 

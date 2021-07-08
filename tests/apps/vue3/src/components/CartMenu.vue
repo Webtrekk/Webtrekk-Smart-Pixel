@@ -40,7 +40,12 @@
                 >
                     Login or register to checkout
                 </button>
-                <button v-else type="submit" v-on:click.prevent="addOrder">
+                <button
+                    id="addOrder"
+                    v-else
+                    type="submit"
+                    v-on:click.prevent="addOrder"
+                >
                     Order Items
                 </button>
             </div>

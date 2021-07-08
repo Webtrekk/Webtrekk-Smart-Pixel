@@ -1,1 +1,4 @@
 /**/*.d.ts
+/**/lorem.js
+/packages/vue/dist/smart-pixel-vue.umd.js
+/tests/instrumented/**/*.js

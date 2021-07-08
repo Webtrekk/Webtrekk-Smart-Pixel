@@ -131,8 +131,8 @@ class WebtrekkSmartPixelVue {
      */
     product(action = 'view', data = emptyObject) {
         this.call(function(pix) {
-            const method = action === 'view' || action === 'basket' ? 'set' : 'add';
-            pix.product[action].data[method]([data]);
+            // const method = action === 'view' || action === 'basket' ? 'set' : 'add';
+            pix.product[action].data.add([data]);
         });
     }
 
@@ -142,8 +142,8 @@ class WebtrekkSmartPixelVue {
      */
     products(action = 'view', data = []) {
         this.call(function(pix) {
-            const method = action === 'view' || action === 'basket' ? 'set' : 'add';
-            pix.product[action].data[method](data);
+            // const method = action === 'view' || action === 'basket' ? 'set' : 'add';
+            pix.product[action].data.add(data);
         });
     }
 
@@ -174,35 +174,27 @@ class WebtrekkSmartPixelVue {
      * @param {boolean} keepData
      */
     track(keepData = false) {
-        // all the setTimeout hacks have to be done because of this issue: https://github.com/vuejs/vue-router/pull/2292, otherwise linkTracking is triggered after autoTracking
-        // Otherwise automatic linkTracking requests come after PI
-        setTimeout(() => {
-            this.call(function(pix) {
-                pix.track(keepData);
-            });
-        }, 0);
+        this.call(function(pix) {
+            pix.track(keepData);
+        });
     }
 
     /**
      * @param {boolean} keepData
      */
     trackPage(keepData = false) {
-        setTimeout(() => {
-            this.call(function(pix) {
-                pix.trackPage(keepData);
-            });
-        }, 0);
+        this.call(function(pix) {
+            pix.trackPage(keepData);
+        });
     }
 
     /**
      * @param {boolean} keepData
      */
     trackAction(keepData = false) {
-        setTimeout(() => {
-            this.call(function(pix) {
-                pix.trackAction(keepData);
-            });
-        }, 0);
+        this.call(function(pix) {
+            pix.trackAction(keepData);
+        });
     }
 
     /**

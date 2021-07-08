@@ -8,6 +8,8 @@ services:
       ports:
           - "4000:4000"
           - "4001:4001"
+      environment:
+          - TERM=xterm-256color
       networks:
           - mapp
       volumes:
@@ -15,6 +17,24 @@ services:
       command: bash -c "
           cd /app && make run_phoenix_inside_docker
           "
+  cypress:
+      container_name: cypress
+      # the Docker image to use from https://github.com/cypress-io/cypress-docker-images
+      image: "cypress/included:7.6.0"
+      depends_on:
+          - phoenix
+      entrypoint: ["/bin/bash", "./cypress_entrypoint.sh"]
+      environment:
+          # pass base url to test pointing at the web application
+          - CYPRESS_baseUrl=http://phoenix:4000
+          - DISPLAY=:99
+      # share the current folder as volume to avoid copying
+      working_dir: /
+      volumes:
+          - ../E2E:/e2e
+          - ./cypress_entrypoint.sh:/cypress_entrypoint.sh
+      networks:
+          - mapp
 networks:
     mapp:
 #  adminer:

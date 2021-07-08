@@ -25,5 +25,13 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 Cypress.Commands.add('smartIntercept', () => {
-    cy.intercept('https://localhost:4001/123123123123123/wt').as('trackRequest');
+    cy.intercept('GET', '**/123123123123123/wt?**').as('trackRequest');
 });
+
+Cypress.Commands.add('requestsCountByUrl', url =>
+    cy.wrap().then(() => {
+        const requests = cy.state('requests') || [];
+        console.log("A", requests);
+        return requests.filter(req => req.xhr.url === url).length;
+    })
+);

@@ -11,7 +11,13 @@ export const autoTrack = (config) => {
             SmartPixelVue.deactivateAutoTracking = false;
         }
         else {
-            SmartPixelVue.track();
+            // all the setTimeout hacks have to be done because of this issue: https://github.com/vuejs/vue-router/pull/2292, otherwise linkTracking is triggered after autoTracking
+            // Otherwise automatic linkTracking requests come after PI
+            setTimeout(() => {
+                SmartPixelVue.call(function(pix) {
+                    pix.track();
+                });
+            }, 0);
         }
     });
 };
@@ -20,7 +26,6 @@ export const mappBeforeResolve = (to) => {
     SmartPixelVue.clear();
     const routerComponent = to.matched[0].components.default;
     const componentMappData = [];
-    console.log(123, to);
     const getComponentMappDataRecursively = (component) => {
         if (component.data && component.data().webtrekk) {
             componentMappData.push(component.data().webtrekk);

@@ -51,6 +51,7 @@ packages/*/dist/*
 !tests/pseudo_db/
 !tests/Makefile
 !tests/README.md
+!tests/instrumented
 tests/E2E/coverage
 tests/E2E/.nyc_output
 

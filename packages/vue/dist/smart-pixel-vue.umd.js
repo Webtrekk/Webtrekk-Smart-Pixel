@@ -393,16 +393,10 @@
     }, {
       key: "track",
       value: function track() {
-        var _this = this;
-
         var keepData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-        // all the setTimeout hacks have to be done because of this issue: https://github.com/vuejs/vue-router/pull/2292, otherwise linkTracking is triggered after autoTracking
-        // Otherwise automatic linkTracking requests come after PI
-        setTimeout(function () {
-          _this.call(function (pix) {
-            pix.track(keepData);
-          });
-        }, 0);
+        this.call(function (pix) {
+          pix.track(keepData);
+        });
       }
       /**
        * @param {boolean} keepData
@@ -411,14 +405,10 @@
     }, {
       key: "trackPage",
       value: function trackPage() {
-        var _this2 = this;
-
         var keepData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-        setTimeout(function () {
-          _this2.call(function (pix) {
-            pix.trackPage(keepData);
-          });
-        }, 0);
+        this.call(function (pix) {
+          pix.trackPage(keepData);
+        });
       }
       /**
        * @param {boolean} keepData
@@ -427,14 +417,10 @@
     }, {
       key: "trackAction",
       value: function trackAction() {
-        var _this3 = this;
-
         var keepData = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-        setTimeout(function () {
-          _this3.call(function (pix) {
-            pix.trackAction(keepData);
-          });
-        }, 0);
+        this.call(function (pix) {
+          pix.trackAction(keepData);
+        });
       }
       /**
        *
@@ -775,7 +761,13 @@
       if (SmartPixelVue.deactivateAutoTracking) {
         SmartPixelVue.deactivateAutoTracking = false;
       } else {
-        SmartPixelVue.track();
+        // all the setTimeout hacks have to be done because of this issue: https://github.com/vuejs/vue-router/pull/2292, otherwise linkTracking is triggered after autoTracking
+        // Otherwise automatic linkTracking requests come after PI
+        setTimeout(function () {
+          SmartPixelVue.call(function (pix) {
+            pix.track();
+          });
+        }, 0);
       }
     });
   };
@@ -783,7 +775,6 @@
     SmartPixelVue.clear();
     var routerComponent = to.matched[0].components["default"];
     var componentMappData = [];
-    console.log(123, to);
 
     var getComponentMappDataRecursively = function getComponentMappDataRecursively(component) {
       if (component.data && component.data().webtrekk) {

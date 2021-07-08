@@ -103,7 +103,7 @@
         "test:next:latest": "npm run install:next:latest && npm run jest:next:latest",
         "// @webtrekk-smart-pixel/vue": "",
         "build:vue": "npm run install:vue:2.6 && npm run build-only:vue",
-        "build-only:vue": "cross-env VUE_VERSION=2.6 VUE=build node ./scripts/rollup/build.js vue",
+        "build-only:vue": "cross-env VUE_VERSION=2.6 VUE=build node ./scripts/rollup/build.js vue && nyc instrument ./packages/vue/src ./tests/instrumented/vue",
         "coverage:vue": "node ./scripts/coverage/vue.js",
         "install:vue:2.3": "node ./scripts/install/installer.js vue 2.3",
         "install:vue:2.4": "node ./scripts/install/installer.js vue 2.4",
